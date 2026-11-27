@@ -5,6 +5,8 @@ import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
 import com.android.tools.smali.dexlib2.AccessFlags
 
+internal const val ANHPAN_UI_HELPER = "Lapp/template/extension/zalo/settings/AnhpanUiHelper;"
+
 internal object NormalMsgBindFingerprint : Fingerprint(
     definingClass = "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;",
     name = "T",

@@ -4,7 +4,7 @@ Personal Morphe Patches for Zalo.
 
 ## About
 
-Custom patches for Zalo, including Anhpan's settings.
+Mục đích mình làm đống patch này chủ yếu để xài cá nhân thôi, nhưng nếu anh em nào thấy hợp gu thì cứ add source về xài thoải mái. Các patch hiện tại chủ yếu tinh chỉnh lại giao diện (UI) bên phía client: nửa phần vì mình bị ADHD nên muốn mọi thứ tối giản, gọn mắt nhất có thể, nửa phần vì cực kỳ ngứa mắt với cái app Zalo nhưng công việc bắt buộc phải dùng nên đành tự độ lại cho đỡ khó chịu.
 
 ### How to use these patches
 

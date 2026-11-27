@@ -151,24 +151,6 @@ public final class AnhpanSettings {
         ZaloUi.toggleRow(
             list,
             context,
-            "Hide My Cloud (Cloud cua toi)",
-            "eye_off",
-            prefs.getBoolean(AnhpanPrefs.HIDE_CLOUD_MY_CLOUD, false),
-            darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_CLOUD_MY_CLOUD, checked).apply()
-        );
-        ZaloUi.toggleRow(
-            list,
-            context,
-            "Hide Official Accounts",
-            "eye_off",
-            prefs.getBoolean(AnhpanPrefs.HIDE_OFFICIAL_ACCOUNTS, false),
-            darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_OFFICIAL_ACCOUNTS, checked).apply()
-        );
-        ZaloUi.toggleRow(
-            list,
-            context,
             "Hide draft preview",
             "eye_off",
             prefs.getBoolean(AnhpanPrefs.HIDE_DRAFT_PREVIEW, false),
@@ -184,6 +166,22 @@ public final class AnhpanSettings {
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_CHAT_TIME, checked).apply()
         );
+
+        ZaloUi.addGroup(list, context, "System", darkMode);
+        View resetRow = ZaloUi.row(context, "Reset all settings", ZaloUi.zdsIcon(context, "eye_off", darkMode), true, darkMode, null, 49);
+        resetRow.setClickable(true);
+        resetRow.setOnClickListener(v -> {
+            android.util.Log.d("AnhpanDebug", "Reset all settings clicked");
+            prefs.edit().clear().commit();
+            android.widget.Toast.makeText(context, "Reset complete, restarting...", android.widget.Toast.LENGTH_SHORT).show();
+            android.content.Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+            if (launch != null) {
+                launch.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                context.startActivity(launch);
+            }
+            android.os.Process.killProcess(android.os.Process.myPid());
+        });
+        list.addView(resetRow, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         page.show();
     }

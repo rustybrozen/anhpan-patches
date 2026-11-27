@@ -81,21 +81,6 @@ public final class AnhpanUiHelper {
             convId = (String) eMethod.invoke(pupVar);
         } catch (Throwable ignored) { }
 
-        boolean hideCloud = AnhpanPrefs.isCloudMyCloudHidden(context) && isMyCloud(convId, pupVar);
-        boolean hideOa = AnhpanPrefs.isOfficialAccountsHidden(context) && isOfficialAccount(pupVar);
-        android.util.Log.d("AnhpanDebug", "onBindNormalMsg convId=" + convId + " hideCloud=" + hideCloud + " hideOa=" + hideOa);
-        if (hideCloud || hideOa) {
-            view.setVisibility(View.GONE);
-            android.view.ViewGroup.LayoutParams lp = view.getLayoutParams();
-            if (lp != null) {
-                lp.height = 0;
-                view.setLayoutParams(lp);
-            }
-            return;
-        } else if (view.getVisibility() == View.GONE) {
-            view.setVisibility(View.VISIBLE);
-        }
-
         try {
             Object timeModule = view.getClass().getMethod("getMTime").invoke(view);
             if (timeModule != null) {
@@ -206,15 +191,25 @@ public final class AnhpanUiHelper {
         }
     }
 
-    private static boolean isMyCloud(String convId, Object pupVar) {
+    private static boolean isMyCloud(View view, String convId, Object pupVar) {
         if (convId != null && (convId.contains("cloud") || convId.equals("0"))) return true;
         try {
-            java.lang.reflect.Field cField = pupVar.getClass().getField("c");
-            cField.setAccessible(true);
-            Object profile = cField.get(pupVar);
-            if (profile != null) {
-                String s = profile.toString();
-                return s.contains("Cloud của tôi") || s.contains("My Cloud") || s.contains("My Documents");
+            Object listItem = view.getClass().getMethod("getMListItemModule").invoke(view);
+            if (listItem != null) {
+                for (Class<?> cls = listItem.getClass(); cls != null; cls = cls.getSuperclass()) {
+                    for (java.lang.reflect.Field f : cls.getDeclaredFields()) {
+                        if (CharSequence.class.isAssignableFrom(f.getType())) {
+                            f.setAccessible(true);
+                            Object v = f.get(listItem);
+                            if (v instanceof CharSequence) {
+                                String s = v.toString();
+                                if ("My Documents".equals(s) || "Cloud của tôi".equals(s) || "My Cloud".equals(s)) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         } catch (Throwable ignored) { }
         return false;
