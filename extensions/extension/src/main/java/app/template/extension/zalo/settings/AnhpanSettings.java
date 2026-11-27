@@ -41,32 +41,54 @@ public final class AnhpanSettings {
         if (divider != null) divider.post(() -> divider.setVisibility(View.VISIBLE));
     }
 
-    public static boolean shouldDisableUnreadHighlight(View view) {
-        return view != null && AnhpanPrefs.isUnreadHighlightDisabled(view.getContext());
+    public static boolean shouldDisableUnreadHighlight(View view, Object pupVar) {
+        if (view == null || pupVar == null) return false;
+        return AnhpanChatLock.shouldDisableChatHighlight(view.getContext(), pupVar);
     }
 
     private static void show(Context context, boolean darkMode) {
         SharedPreferences prefs = AnhpanPrefs.of(context);
         Dialog page = ZaloUi.page(context, TITLE, darkMode);
         LinearLayout list = page.findViewById(android.R.id.content).findViewWithTag("anhpan-list");
-        ZaloUi.addGroup(list, context, "Messages", darkMode);
+
+        ZaloUi.addGroup(list, context, "UI", darkMode);
         ZaloUi.toggleRow(
             list,
             context,
-            "Read-only mode",
+            "Hide search bar",
             "eye_off",
-            prefs.getBoolean(AnhpanPrefs.ENABLE_READ_ONLY, true),
+            prefs.getBoolean(AnhpanPrefs.HIDE_SEARCH_BAR, false),
             darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.ENABLE_READ_ONLY, checked).apply()
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_SEARCH_BAR, checked).apply()
         );
         ZaloUi.toggleRow(
             list,
             context,
-            "Disable unread highlight",
+            "Hide QR button",
             "eye_off",
-            prefs.getBoolean(AnhpanPrefs.DISABLE_UNREAD_HIGHLIGHT, false),
+            prefs.getBoolean(AnhpanPrefs.HIDE_QR_BUTTON, false),
             darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.DISABLE_UNREAD_HIGHLIGHT, checked).apply()
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_QR_BUTTON, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide add (+) button",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.HIDE_PLUS_BUTTON, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_PLUS_BUTTON, checked).apply()
+        );
+
+        ZaloUi.addGroup(list, context, "Messages", darkMode);
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Chat highlight toggle",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, true),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, checked).apply()
         );
         ZaloUi.toggleRow(
             list,
@@ -86,6 +108,45 @@ public final class AnhpanSettings {
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_QUICK_SHARE, checked).apply()
         );
+
+        ZaloUi.addGroup(list, context, "Read-only", darkMode);
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Read-only mode",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.ENABLE_READ_ONLY, true),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.ENABLE_READ_ONLY, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Disable highlight in Read-only",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.READ_ONLY_NO_HIGHLIGHT, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.READ_ONLY_NO_HIGHLIGHT, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide member avatars in Read-only",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.READ_ONLY_HIDE_AVATAR, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.READ_ONLY_HIDE_AVATAR, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "No colored member names in Read-only",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.READ_ONLY_NO_COLOR_NAME, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.READ_ONLY_NO_COLOR_NAME, checked).apply()
+        );
+
         page.show();
     }
 }

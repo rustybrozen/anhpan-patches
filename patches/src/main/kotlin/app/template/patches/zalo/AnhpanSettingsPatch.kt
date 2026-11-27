@@ -116,6 +116,27 @@ internal object ChatSettingBindFingerprint : Fingerprint(
     parameters = listOf("La04;", "I"),
 )
 
+internal object ChatRowOnDrawFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/chatrow/ChatRow;",
+    name = "onDraw",
+    returnType = "V",
+    parameters = listOf("Landroid/graphics/Canvas;"),
+)
+
+internal object ChatRowSenderNameFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/chatrow/ChatRow;",
+    name = "e0",
+    returnType = "V",
+    parameters = listOf("Landroid/graphics/Canvas;", "Z"),
+)
+
+internal object MainTabMenuFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/maintab/MainTabView;",
+    name = "m5",
+    returnType = "V",
+    parameters = listOf("Lcom/zing/zalo/zview/actionbar/ActionBarMenu;"),
+)
+
 @Suppress("unused")
 val anhpanSettingsPatch = bytecodePatch(
     name = "Anhpan's settings",
@@ -167,7 +188,7 @@ val anhpanSettingsPatch = bytecodePatch(
         unreadMethod.addInstructionsWithLabels(
             0,
             """
-                invoke-static {p0}, $ANHPAN_SETTINGS->shouldDisableUnreadHighlight(Landroid/view/View;)Z
+                invoke-static {p0, p1}, $ANHPAN_SETTINGS->shouldDisableUnreadHighlight(Landroid/view/View;Ljava/lang/Object;)Z
                 move-result v0
                 if-eqz v0, :anhpan_original_unread
                 const/4 v0, 0x0
@@ -343,6 +364,41 @@ val anhpanSettingsPatch = bytecodePatch(
                 move-object/from16 v0, v$sBindBase
                 move-object/from16 v1, v${sBindBase + 1}
                 invoke-static {v0, v1}, $ANHPAN_CHAT_LOCK->tagSettingItem(Landroid/view/View;Ljava/lang/Object;)V
+            """.trimIndent(),
+        )
+
+        check(ChatRowOnDrawFingerprint.matchAll(1..1).size == 1)
+        val rowDraw = ChatRowOnDrawFingerprint.method
+        val rowDrawBase = rowDraw.implementation!!.registerCount - 2
+        rowDraw.addInstructions(
+            0,
+            """
+                move-object/from16 v0, v$rowDrawBase
+                invoke-static {v0}, $ANHPAN_CHAT_LOCK->applyChatRowDraw(Landroid/view/View;)V
+            """.trimIndent(),
+        )
+
+        check(ChatRowSenderNameFingerprint.matchAll(1..1).size == 1)
+        val rowName = ChatRowSenderNameFingerprint.method
+        val rowNameBase = rowName.implementation!!.registerCount - 3
+        rowName.addInstructions(
+            0,
+            """
+                move-object/from16 v0, v$rowNameBase
+                invoke-static {v0}, $ANHPAN_CHAT_LOCK->applySenderNameColor(Landroid/view/View;)V
+            """.trimIndent(),
+        )
+
+        check(MainTabMenuFingerprint.matchAll(1..1).size == 1)
+        val tabMenu = MainTabMenuFingerprint.method
+        val tabMenuBase = tabMenu.implementation!!.registerCount - 2
+        val tabMenuRet = tabMenu.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_VOID }
+        check(tabMenuRet >= 0)
+        tabMenu.addInstructions(
+            tabMenuRet,
+            """
+                move-object/from16 v0, v$tabMenuBase
+                invoke-static {v0}, $ANHPAN_CHAT_LOCK->applyMainTabMenu(Ljava/lang/Object;)V
             """.trimIndent(),
         )
     }

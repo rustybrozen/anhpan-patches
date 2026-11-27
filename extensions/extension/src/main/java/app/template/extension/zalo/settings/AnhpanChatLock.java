@@ -23,9 +23,12 @@ import java.lang.reflect.Proxy;
 public final class AnhpanChatLock {
     private static final String TAG = "AnhpanChatLock";
     public static final int MENU_ITEM_ID = 0x414E4850;
+    public static final int HIGHLIGHT_ITEM_ID = 0x414E4851;
     private static String pendingConvId;
     private static boolean activeConvLocked;
     private static int pendingActionResId;
+    private static Field chatRowAvatarFlagField;
+    private static Field chatRowNameLayoutField;
 
     private AnhpanChatLock() { }
 
@@ -74,7 +77,7 @@ public final class AnhpanChatLock {
         if (list == null || menuView == null || convId == null) return;
         try {
             Context context = (Context) findMethod(menuView.getClass(), "O5").invoke(menuView);
-            if (context == null || !AnhpanPrefs.isReadOnlyEnabled(context)) return;
+            if (context == null) return;
             ClassLoader cl = menuView.getClass().getClassLoader();
             Class<?> itemCls = cl.loadClass("l7j");
             Class<?> typeCls = cl.loadClass("o7j");
@@ -88,8 +91,20 @@ public final class AnhpanChatLock {
                 int.class
             );
             ctor.setAccessible(true);
-            Object item = ctor.newInstance(MENU_ITEM_ID, null, getMenuTitle(context, convId), true, normalType, 0);
-            list.add(item);
+            if (AnhpanPrefs.isReadOnlyEnabled(context)) {
+                Object lockItem = ctor.newInstance(MENU_ITEM_ID, null, getMenuTitle(context, convId), true, normalType, 0);
+                list.add(lockItem);
+            }
+            if (AnhpanPrefs.isChatHighlightFeatureEnabled(context)) {
+                boolean overridden = AnhpanPrefs.isReadOnlyEnabled(context)
+                    && AnhpanPrefs.isReadOnlyNoHighlight(context)
+                    && AnhpanPrefs.isChatLocked(context, convId);
+                String hlTitle = overridden
+                    ? "Disable chat highlight (Read-only)"
+                    : (AnhpanPrefs.isChatHighlightDisabled(context, convId) ? "Enable chat highlight" : "Disable chat highlight");
+                Object hlItem = ctor.newInstance(HIGHLIGHT_ITEM_ID, null, hlTitle, !overridden, normalType, 0);
+                list.add(hlItem);
+            }
         } catch (Throwable t) {
             Log.e(TAG, "addLockMenuItem failed", t);
         }
@@ -131,6 +146,24 @@ public final class AnhpanChatLock {
                                         locked ? "Read-only enabled" : "Read-only disabled",
                                         Toast.LENGTH_SHORT
                                     ).show();
+                                    try {
+                                        findMethod(menuView.getClass(), "d7").invoke(menuView);
+                                    } catch (Throwable ignored) { }
+                                    return null;
+                                }
+                                if (idVal instanceof Integer && ((Integer) idVal) == HIGHLIGHT_ITEM_ID) {
+                                    String convId = pendingConvId;
+                                    boolean overridden = AnhpanPrefs.isReadOnlyEnabled(context)
+                                        && AnhpanPrefs.isReadOnlyNoHighlight(context)
+                                        && AnhpanPrefs.isChatLocked(context, convId);
+                                    if (!overridden) {
+                                        boolean disabled = AnhpanPrefs.toggleChatHighlightDisabled(context, convId);
+                                        Toast.makeText(
+                                            context,
+                                            disabled ? "Chat highlight disabled" : "Chat highlight enabled",
+                                            Toast.LENGTH_SHORT
+                                        ).show();
+                                    }
                                     try {
                                         findMethod(menuView.getClass(), "d7").invoke(menuView);
                                     } catch (Throwable ignored) { }
@@ -284,9 +317,117 @@ public final class AnhpanChatLock {
         ViewGroup vg = (ViewGroup) view;
         for (int i = 0; i < vg.getChildCount(); i++) {
             View child = vg.getChildAt(i);
-            if (hasAnyTextView(child) && !(child instanceof android.widget.ImageView)) {
+            if (child instanceof TextView) {
                 blockTouchTree(child);
+            } else if (child instanceof ViewGroup) {
+                if (hasAnyActionButton(child)) {
+                    disableTitleClicks(child);
+                } else if (hasAnyTextView(child)) {
+                    blockTouchTree(child);
+                }
             }
+        }
+    }
+
+    private static boolean hasAnyActionButton(View view) {
+        String cls = view.getClass().getName();
+        if (cls.contains("ActionBarButton") || view instanceof android.widget.ImageView) return true;
+        if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                if (hasAnyActionButton(vg.getChildAt(i))) return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean shouldDisableChatHighlight(Context context, Object pupVar) {
+        if (context == null || pupVar == null) return false;
+        try {
+            String convId = (String) findMethod(pupVar.getClass(), "e").invoke(pupVar);
+            if (convId == null || convId.isEmpty()) return false;
+            if (AnhpanPrefs.isReadOnlyEnabled(context)
+                && AnhpanPrefs.isReadOnlyNoHighlight(context)
+                && AnhpanPrefs.isChatLocked(context, convId)) {
+                return true;
+            }
+            return AnhpanPrefs.isChatHighlightFeatureEnabled(context)
+                && AnhpanPrefs.isChatHighlightDisabled(context, convId);
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
+    public static void applyChatRowDraw(View chatRow) {
+        if (!activeConvLocked || chatRow == null) return;
+        if (!AnhpanPrefs.isReadOnlyHideAvatar(chatRow.getContext())) return;
+        try {
+            if (chatRowAvatarFlagField == null) {
+                chatRowAvatarFlagField = findField(chatRow.getClass(), "N1");
+            }
+            chatRowAvatarFlagField.setBoolean(chatRow, false);
+        } catch (Throwable ignored) { }
+    }
+
+    public static void applySenderNameColor(View chatRow) {
+        if (!activeConvLocked || chatRow == null) return;
+        Context context = chatRow.getContext();
+        if (!AnhpanPrefs.isReadOnlyNoColorName(context)) return;
+        try {
+            if (chatRowNameLayoutField == null) {
+                chatRowNameLayoutField = findField(chatRow.getClass(), "U1");
+            }
+            Object layoutObj = chatRowNameLayoutField.get(chatRow);
+            if (layoutObj instanceof android.text.StaticLayout) {
+                boolean dark = ZaloUi.isDarkMode(context, chatRow);
+                ((android.text.StaticLayout) layoutObj).getPaint().setColor(dark ? 0xFFB0B5C0 : 0xFF5A606D);
+            }
+        } catch (Throwable ignored) { }
+    }
+
+    public static void applyMainTabMenu(Object mainTabView) {
+        if (mainTabView == null) return;
+        try {
+            Context context = (Context) findMethod(mainTabView.getClass(), "O5").invoke(mainTabView);
+            if (context == null) return;
+            if (AnhpanPrefs.isSearchBarHidden(context)) {
+                try {
+                    Object searchBar = findField(mainTabView.getClass(), "D1").get(mainTabView);
+                    if (searchBar instanceof View) {
+                        View sb = (View) searchBar;
+                        sb.setVisibility(View.GONE);
+                        if (sb.getParent() instanceof View) {
+                            ((View) sb.getParent()).setClickable(false);
+                        }
+                    }
+                } catch (Throwable ignored) { }
+            }
+            if (AnhpanPrefs.isPlusButtonHidden(context)) {
+                hideMenuFieldByName(mainTabView, "q2");
+            }
+            if (AnhpanPrefs.isQrButtonHidden(context)) {
+                hideMenuByIdName(mainTabView, context, "action_bar_qrcode");
+            }
+        } catch (Throwable ignored) { }
+    }
+
+    private static void hideMenuFieldByName(Object target, String fieldName) {
+        try {
+            Object v = findField(target.getClass(), fieldName).get(target);
+            if (v instanceof View) ((View) v).setVisibility(View.GONE);
+        } catch (Throwable ignored) { }
+    }
+
+    private static void hideMenuByIdName(Object mainTabView, Context context, String idName) {
+        int id = context.getResources().getIdentifier(idName, "id", context.getPackageName());
+        if (id == 0) return;
+        for (String fn : new String[] { "k2", "l2", "m2", "n2", "o2", "p2", "q2" }) {
+            try {
+                Object v = findField(mainTabView.getClass(), fn).get(mainTabView);
+                if (v instanceof View && ((View) v).getId() == id) {
+                    ((View) v).setVisibility(View.GONE);
+                }
+            } catch (Throwable ignored) { }
         }
     }
 
