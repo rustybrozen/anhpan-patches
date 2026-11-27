@@ -1,3 +1,9 @@
+## [1.1.0-dev.13](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.12...v1.1.0-dev.13) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* patch compilation error in group info hooks ([7e76156](https://github.com/rustybrozen/anhpan-patches/commit/7e76156ee70f7888b357a78cc9bdc88461117094))
+
 ## [1.1.0-dev.12](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.11...v1.1.0-dev.12) (2026-11-27)
 
 ### 🐛 Bug Fixes
