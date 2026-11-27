@@ -7,10 +7,9 @@ import com.android.tools.smali.dexlib2.AccessFlags
 
 internal object NormalMsgBindFingerprint : Fingerprint(
     definingClass = "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;",
-    name = "O",
+    name = "T",
     returnType = "V",
-    accessFlags = listOf(AccessFlags.PUBLIC),
-    parameters = listOf("Lpup;"),
+    parameters = listOf("Lpup;", "Z", "I"),
 )
 
 @Suppress("unused")

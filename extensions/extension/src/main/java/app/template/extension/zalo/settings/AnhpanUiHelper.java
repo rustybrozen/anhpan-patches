@@ -95,12 +95,44 @@ public final class AnhpanUiHelper {
         } else if (view.getVisibility() == View.GONE) {
             view.setVisibility(View.VISIBLE);
         }
+
+        if (convId != null) {
+            try {
+                Object avatar = view.getClass().getMethod("getMAvatar").invoke(view);
+                if (avatar != null) {
+                    boolean hideAvatar = AnhpanPrefs.isChatAvatarHidden(context, convId);
+                    avatar.getClass().getMethod("o0", int.class).invoke(avatar, hideAvatar ? View.GONE : View.VISIBLE);
+                }
+            } catch (Throwable ignored) { }
+        }
+
+        if (convId != null) {
+            String customName = AnhpanPrefs.getCustomName(context, convId);
+            if (customName != null) {
+                try {
+                    Object listItem = view.getClass().getMethod("getMListItemModule").invoke(view);
+                    if (listItem != null) {
+                        int matchCount = 0;
+                        for (java.lang.reflect.Method m : listItem.getClass().getMethods()) {
+                            if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0] == CharSequence.class) {
+                                matchCount++;
+                                if (matchCount == 2) {
+                                    m.invoke(listItem, customName);
+                                }
+                            }
+                        }
+                    }
+                } catch (Throwable t) {
+                    android.util.Log.e("AnhpanDebug", "Failed to set customName on getMListItemModule", t);
+                }
+            }
+        }
     }
 
     private static boolean isMyCloud(String convId, Object pupVar) {
         if (convId != null && (convId.contains("cloud") || convId.equals("0"))) return true;
         try {
-            java.lang.reflect.Field cField = pupVar.getClass().getDeclaredField("c");
+            java.lang.reflect.Field cField = pupVar.getClass().getField("c");
             cField.setAccessible(true);
             Object profile = cField.get(pupVar);
             if (profile != null) {
