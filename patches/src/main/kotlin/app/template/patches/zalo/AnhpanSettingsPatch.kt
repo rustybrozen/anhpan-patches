@@ -298,33 +298,52 @@ val anhpanSettingsPatch = bytecodePatch(
         val t6Ret = t6Method.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_OBJECT }
         check(t6Ret >= 0)
         val t6RetReg = t6Method.getInstruction<OneRegisterInstruction>(t6Ret).registerA
+        val t6Base = t6Method.implementation!!.registerCount - 3
         t6Method.addInstructions(
             t6Ret,
-            "invoke-static {v$t6RetReg}, $ANHPAN_CHAT_LOCK->applyCapturedActionBarButton(Landroid/view/View;)V",
+            """
+                move-object/from16 v0, v$t6RetReg
+                invoke-static {v0}, $ANHPAN_CHAT_LOCK->applyCapturedActionBarButton(Landroid/view/View;)V
+            """.trimIndent(),
         )
         t6Method.addInstructions(
             0,
-            "invoke-static {p2}, $ANHPAN_CHAT_LOCK->captureActionResId(I)V",
+            """
+                move/from16 v0, v${t6Base + 2}
+                invoke-static {v0}, $ANHPAN_CHAT_LOCK->captureActionResId(I)V
+            """.trimIndent(),
         )
 
         check(SettingHorizontalBindFingerprint.matchAll(1..1).size == 1)
         val hBind = SettingHorizontalBindFingerprint.method
+        val hBindBase = hBind.implementation!!.registerCount - 3
         hBind.addInstructions(
             0,
-            "invoke-static {p1}, $ANHPAN_CHAT_LOCK->filterHorizontalItems(Ljava/lang/Object;)V",
+            """
+                move-object/from16 v0, v${hBindBase + 1}
+                invoke-static {v0}, $ANHPAN_CHAT_LOCK->filterHorizontalItems(Ljava/lang/Object;)V
+            """.trimIndent(),
         )
 
         check(ChatSettingBindFingerprint.matchAll(1..1).size == 1)
         val sBind = ChatSettingBindFingerprint.method
+        val sBindBase = sBind.implementation!!.registerCount - 3
         val sBindRet = sBind.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_VOID }
         check(sBindRet >= 0)
         sBind.addInstructions(
             sBindRet,
-            "invoke-static {p0}, $ANHPAN_CHAT_LOCK->applySettingHideTag(Landroid/view/View;)V",
+            """
+                move-object/from16 v0, v$sBindBase
+                invoke-static {v0}, $ANHPAN_CHAT_LOCK->applySettingHideTag(Landroid/view/View;)V
+            """.trimIndent(),
         )
         sBind.addInstructions(
             0,
-            "invoke-static {p0, p1}, $ANHPAN_CHAT_LOCK->tagSettingItem(Landroid/view/View;Ljava/lang/Object;)V",
+            """
+                move-object/from16 v0, v$sBindBase
+                move-object/from16 v1, v${sBindBase + 1}
+                invoke-static {v0, v1}, $ANHPAN_CHAT_LOCK->tagSettingItem(Landroid/view/View;Ljava/lang/Object;)V
+            """.trimIndent(),
         )
     }
 }
