@@ -171,8 +171,7 @@ val anhpanSettingsPatch = bytecodePatch(
             reactionReturn,
             """
                 move-object/from16 v0, v$reactionBase
-                move-object/from16 v1, v${reactionBase + 3}
-                invoke-static {v0, v1}, $ANHPAN_CHAT_LOCK->applyReactionPicker(Landroid/view/View;Ljava/lang/String;)V
+                invoke-static {v0}, $ANHPAN_CHAT_LOCK->applyReactionPicker(Landroid/view/View;)V
             """.trimIndent(),
         )
     }

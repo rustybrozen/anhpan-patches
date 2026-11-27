@@ -24,6 +24,7 @@ public final class AnhpanChatLock {
     private static final String TAG = "AnhpanChatLock";
     public static final int MENU_ITEM_ID = 0x414E4850;
     private static String pendingConvId;
+    private static boolean activeConvLocked;
 
     private AnhpanChatLock() { }
 
@@ -149,9 +150,13 @@ public final class AnhpanChatLock {
     }
 
     public static void applyInputBar(View inputBar, String convId) {
-        if (inputBar == null || convId == null) return;
+        if (inputBar == null || convId == null) {
+            activeConvLocked = false;
+            return;
+        }
         Context context = inputBar.getContext();
-        if (!AnhpanPrefs.isChatLocked(context, convId)) return;
+        activeConvLocked = AnhpanPrefs.isChatLocked(context, convId);
+        if (!activeConvLocked) return;
         if (!(inputBar instanceof ViewGroup)) {
             inputBar.setVisibility(View.GONE);
             return;
@@ -216,9 +221,8 @@ public final class AnhpanChatLock {
         ));
     }
 
-    public static void applyReactionPicker(View picker, String convId) {
-        if (picker == null || convId == null) return;
-        if (AnhpanPrefs.isChatLocked(picker.getContext(), convId)) {
+    public static void applyReactionPicker(View picker) {
+        if (picker != null && activeConvLocked) {
             picker.setVisibility(View.GONE);
         }
     }
