@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T04:51:55",
-  "description": "## [1.1.0-dev.7](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.6...v1.1.0-dev.7) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* proxy original listener interfaces instead of Object field type ([33190f0](https://github.com/rustybrozen/anhpan-patches/commit/33190f06d8e3e59aaf597dca06b86e45c10f34da))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.7/patches-1.1.0-dev.7.mpp",
+  "created_at": "2026-11-27T04:58:32",
+  "description": "## [1.1.0-dev.8](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.7...v1.1.0-dev.8) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* detect l7j item in proxy args and show locked chat banner ([af6e7e9](https://github.com/rustybrozen/anhpan-patches/commit/af6e7e9b9dc49175d2b649797b941366b03dba24))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.8/patches-1.1.0-dev.8.mpp",
   "signature_download_url": "",
-  "version": "1.1.0-dev.7"
+  "version": "1.1.0-dev.8"
 }

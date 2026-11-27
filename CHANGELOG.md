@@ -1,3 +1,9 @@
+## [1.1.0-dev.8](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.7...v1.1.0-dev.8) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* detect l7j item in proxy args and show locked chat banner ([af6e7e9](https://github.com/rustybrozen/anhpan-patches/commit/af6e7e9b9dc49175d2b649797b941366b03dba24))
+
 ## [1.1.0-dev.7](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.6...v1.1.0-dev.7) (2026-11-27)
 
 ### 🐛 Bug Fixes
