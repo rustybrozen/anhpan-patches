@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.1.0",
+  "version": "1.2.0-dev.1",
   "patches": [
     {
       "name": "Anhpan's settings",
@@ -136,6 +136,14 @@
           ]
         }
       ],
+      "options": []
+    },
+    {
+      "name": "Universal UI inspector",
+      "description": "Adds a draggable debug button to inspect, tag, and export UI element metadata on any app.",
+      "default": false,
+      "category": null,
+      "compatiblePackages": null,
       "options": []
     }
   ]

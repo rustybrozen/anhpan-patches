@@ -1,3 +1,9 @@
+## [1.2.0-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0...v1.2.0-dev.1) (2026-11-27)
+
+### ✨ New Features
+
+* add universal UI inspector debug patch ([3aa1cd8](https://github.com/rustybrozen/anhpan-patches/commit/3aa1cd849ff7b886c7710238daff1a989f9d84ea))
+
 ## [1.1.0](https://github.com/rustybrozen/anhpan-patches/compare/v1.0.0...v1.1.0) (2026-11-27)
 
 ### ✨ New Features
