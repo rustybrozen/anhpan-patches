@@ -1,6 +1,6 @@
 # Patches
 
-> Generated from `patches-list.json` — **v1.2.0-dev.5** (`dev`) · **7 patches** across **1 app** · back to [README](README.md)
+> Generated from `patches-list.json` — **v1.2.0-dev.6** (`dev`) · **8 patches** across **1 app** · back to [README](README.md)
 
 ---
 
@@ -11,6 +11,7 @@
 | Patch | Details |
 |---|---|
 | **Chat highlight toggle** | Per-conversation highlight toggle via long-press. Requires Anhpan's settings. |
+| **Chat list filters &amp; custom rename** | Hide My Cloud, Official Accounts, draft preview, strip emojis, and per-chat preview/avatar/rename. |
 | **Hide read-only subtitle** | Hides the subtitle below the chat title when in read-only mode (configurable in Anhpan's settings). |
 | **Read-only mode** | Lock individual chats into read-only via long-press. Requires Anhpan's settings. |
 | **Remove chat bubble border** | Removes the chat bubble border/background on text messages (configurable in Anhpan's settings). |

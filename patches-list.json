@@ -1,10 +1,44 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.2.0-dev.5",
+  "version": "1.2.0-dev.6",
   "patches": [
     {
       "name": "Chat highlight toggle",
       "description": "Per-conversation highlight toggle via long-press. Requires Anhpan's settings.",
+      "default": true,
+      "category": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#0068FF",
+          "signatures": null,
+          "formFactor": "MOBILE",
+          "targets": [
+            {
+              "version": "26.11.01",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": null,
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Chat list filters & custom rename",
+      "description": "Hide My Cloud, Official Accounts, draft preview, strip emojis, and per-chat preview/avatar/rename.",
       "default": true,
       "category": null,
       "compatiblePackages": [

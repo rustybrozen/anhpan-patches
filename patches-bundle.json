@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T09:52:49",
-  "description": "## [1.2.0-dev.5](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.4...v1.2.0-dev.5) (2026-11-27)\n\n### ✨ New Features\n\n* add read-only label subtitle bubble border patches and fullscreen settings ([0bcbad1](https://github.com/rustybrozen/anhpan-patches/commit/0bcbad102b8bc03096f5d922e12654d65fa31e28))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.2.0-dev.5/patches-1.2.0-dev.5.mpp",
+  "created_at": "2026-11-27T09:57:48",
+  "description": "## [1.2.0-dev.6](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.5...v1.2.0-dev.6) (2026-11-27)\n\n### ✨ New Features\n\n* add chat list filters per-chat preview/avatar/rename options ([6a539de](https://github.com/rustybrozen/anhpan-patches/commit/6a539dec725624c4135445a4dee4511469d7a06e))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.2.0-dev.6/patches-1.2.0-dev.6.mpp",
   "signature_download_url": "",
-  "version": "1.2.0-dev.5"
+  "version": "1.2.0-dev.6"
 }

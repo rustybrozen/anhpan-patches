@@ -1,3 +1,9 @@
+## [1.2.0-dev.6](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.5...v1.2.0-dev.6) (2026-11-27)
+
+### ✨ New Features
+
+* add chat list filters per-chat preview/avatar/rename options ([6a539de](https://github.com/rustybrozen/anhpan-patches/commit/6a539dec725624c4135445a4dee4511469d7a06e))
+
 ## [1.2.0-dev.5](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.4...v1.2.0-dev.5) (2026-11-27)
 
 ### ✨ New Features
