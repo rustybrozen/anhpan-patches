@@ -101,12 +101,14 @@ public final class UiInspector {
             ));
         }
         overlay.setVisibility(inspectMode ? View.VISIBLE : View.GONE);
+        overlay.setElevation(999f);
 
         TextView fab = root.findViewById(TAG_FAB);
         if (fab == null) {
             fab = createFab(activity, root, overlay);
             root.addView(fab);
         }
+        fab.setElevation(1000f);
         fab.setX(fabX);
         fab.setY(fabY);
         updateFabAppearance(fab, activity);

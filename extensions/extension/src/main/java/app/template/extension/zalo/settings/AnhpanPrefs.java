@@ -15,6 +15,8 @@ public final class AnhpanPrefs {
     public static final String READ_ONLY_NO_HIGHLIGHT = "read_only_no_highlight";
     public static final String READ_ONLY_HIDE_AVATAR = "read_only_hide_avatar";
     public static final String READ_ONLY_NO_COLOR_NAME = "read_only_no_color_name";
+    public static final String HIDE_READ_ONLY_SUBTITLE = "hide_read_only_subtitle";
+    public static final String REMOVE_CHAT_BUBBLE_BORDER = "remove_chat_bubble_border";
     private static final String LOCKED_CHATS = "locked_chats";
     private static final String NO_HIGHLIGHT_CHATS = "no_highlight_chats";
 
@@ -62,6 +64,14 @@ public final class AnhpanPrefs {
 
     public static boolean isReadOnlyNoColorName(Context context) {
         return context != null && of(context).getBoolean(READ_ONLY_NO_COLOR_NAME, false);
+    }
+
+    public static boolean isReadOnlySubtitleHidden(Context context) {
+        return context != null && of(context).getBoolean(HIDE_READ_ONLY_SUBTITLE, false);
+    }
+
+    public static boolean isChatBubbleBorderRemoved(Context context) {
+        return context != null && of(context).getBoolean(REMOVE_CHAT_BUBBLE_BORDER, false);
     }
 
     public static boolean isChatHighlightDisabled(Context context, String convId) {

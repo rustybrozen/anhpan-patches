@@ -301,7 +301,7 @@ public final class ZaloUi {
     }
 
     public static Dialog page(Context context, String title, boolean darkMode) {
-        Dialog page = new Dialog(context);
+        Dialog page = new Dialog(context, android.R.style.Theme_DeviceDefault_NoActionBar);
         page.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LinearLayout screen = new LinearLayout(context);
         screen.setOrientation(LinearLayout.VERTICAL);
@@ -340,6 +340,7 @@ public final class ZaloUi {
         screen.addView(scroll, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
         page.setContentView(screen);
         Window window = page.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         window.setBackgroundDrawable(new ColorDrawable(surfaceColor(context, darkMode)));
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.setDimAmount(0f);

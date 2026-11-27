@@ -146,6 +146,24 @@ public final class AnhpanSettings {
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.READ_ONLY_NO_COLOR_NAME, checked).apply()
         );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide subtitle in Read-only",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.HIDE_READ_ONLY_SUBTITLE, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_READ_ONLY_SUBTITLE, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Remove chat bubble border",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.REMOVE_CHAT_BUBBLE_BORDER, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.REMOVE_CHAT_BUBBLE_BORDER, checked).apply()
+        );
 
         page.show();
     }
