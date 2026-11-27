@@ -17,8 +17,10 @@ import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.iface.reference.FieldReference
+import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 private const val ANHPAN_SETTINGS = "Lapp/template/extension/zalo/settings/AnhpanSettings;"
+private const val ANHPAN_CHAT_LOCK = "Lapp/template/extension/zalo/settings/AnhpanChatLock;"
 
 internal object ZaloSettingsFingerprint : Fingerprint(
     definingClass = "Lcom/zing/zalo/ui/settings/SettingV2View;",
@@ -38,6 +40,24 @@ internal object TabMsgUnreadHighlightFingerprint : Fingerprint(
     returnType = "Z",
     accessFlags = listOf(AccessFlags.PUBLIC),
     parameters = listOf("Lpup;", "I"),
+)
+
+internal object ContextMenuW6Fingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/contextmenu/ConversationContextMenuView;",
+    returnType = "Lcom/zing/zalo/zdesign/component/popover/PopoverView;",
+    parameters = listOf("Lpup;"),
+)
+
+internal object ChatInputBarInitFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/widget/inputbar/ChatInputBar;",
+    returnType = "V",
+    parameters = listOf("Landroid/content/Context;", "Ljava/lang/String;", "Lz34;", "Ls64;", "Lnh7;"),
+)
+
+internal object ReactionPickerInitFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/widget/reaction/ReactionPickerView;",
+    returnType = "V",
+    parameters = listOf("Landroid/content/Context;", "Z", "Ljava/lang/String;", "Lytk;", "Ljava/lang/String;"),
 )
 
 @Suppress("unused")
@@ -98,6 +118,58 @@ val anhpanSettingsPatch = bytecodePatch(
                 return v0
             """.trimIndent(),
             ExternalLabel("anhpan_original_unread", firstInstruction),
+        )
+
+        check(ContextMenuW6Fingerprint.matchAll(1..1).size == 1)
+        val w6Method = ContextMenuW6Fingerprint.method
+        val y6CallIndex = w6Method.implementation!!.instructions.indexOfFirst {
+            (it.opcode == Opcode.INVOKE_VIRTUAL || it.opcode == Opcode.INVOKE_SUPER) &&
+                ((it as? ReferenceInstruction)?.reference as? MethodReference)?.name == "Y6"
+        }
+        check(y6CallIndex >= 0)
+        val listReg = w6Method.getInstruction<OneRegisterInstruction>(y6CallIndex + 1).registerA
+        val n1SetIndex = w6Method.implementation!!.instructions.indexOfFirst {
+            it.opcode == Opcode.IPUT_OBJECT &&
+                ((it as? ReferenceInstruction)?.reference as? FieldReference)?.name == "N1"
+        }
+        check(n1SetIndex >= 0)
+        val ej1Reg = w6Method.getInstruction<OneRegisterInstruction>(n1SetIndex).registerA
+
+        w6Method.addInstructions(
+            n1SetIndex + 1,
+            """
+                invoke-virtual {p0}, Lcom/zing/zalo/ui/chat/contextmenu/ConversationContextMenuView;->O5()Landroid/content/Context;
+                move-result-object v0
+                invoke-static {v$ej1Reg, p0, v0}, $ANHPAN_CHAT_LOCK->wrapListener(Ljava/lang/Object;Ljava/lang/Object;Landroid/content/Context;)V
+            """.trimIndent(),
+        )
+        w6Method.addInstructions(
+            y6CallIndex + 2,
+            """
+                invoke-virtual {p1}, Lpup;->e()Ljava/lang/String;
+                move-result-object v0
+                invoke-virtual {p0}, Lcom/zing/zalo/ui/chat/contextmenu/ConversationContextMenuView;->O5()Landroid/content/Context;
+                move-result-object v1
+                invoke-static {v$listReg, v1, v0}, $ANHPAN_CHAT_LOCK->addLockMenuItem(Ljava/util/List;Landroid/content/Context;Ljava/lang/String;)V
+            """.trimIndent(),
+        )
+
+        check(ChatInputBarInitFingerprint.matchAll(1..1).size == 1)
+        val inputBarInit = ChatInputBarInitFingerprint.method
+        val inputBarReturn = inputBarInit.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_VOID }
+        check(inputBarReturn >= 0)
+        inputBarInit.addInstructions(
+            inputBarReturn,
+            "invoke-static {p0, p2}, $ANHPAN_CHAT_LOCK->applyInputBar(Landroid/view/View;Ljava/lang/String;)V",
+        )
+
+        check(ReactionPickerInitFingerprint.matchAll(1..1).size == 1)
+        val reactionInit = ReactionPickerInitFingerprint.method
+        val reactionReturn = reactionInit.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_VOID }
+        check(reactionReturn >= 0)
+        reactionInit.addInstructions(
+            reactionReturn,
+            "invoke-static {p0, p3}, $ANHPAN_CHAT_LOCK->applyReactionPicker(Landroid/view/View;Ljava/lang/String;)V",
         )
     }
 }
