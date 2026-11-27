@@ -23,10 +23,13 @@ public final class AnhpanChatLock {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static void addLockMenuItem(java.util.List list, Context context, String convId) {
-        pendingConvId = convId;
-        if (list == null || context == null || convId == null) return;
+    public static void addLockMenuItem(java.util.List list, Object menuView, Object pupVar) {
+        if (list == null || menuView == null || pupVar == null) return;
         try {
+            Context context = (Context) menuView.getClass().getMethod("O5").invoke(menuView);
+            String convId = (String) pupVar.getClass().getMethod("e").invoke(pupVar);
+            pendingConvId = convId;
+            if (context == null || convId == null) return;
             Class<?> itemCls = Class.forName("l7j");
             Class<?> typeCls = Class.forName("o7j");
             Object normalType = Enum.valueOf((Class<Enum>) typeCls, "NORMAL");
@@ -43,9 +46,11 @@ public final class AnhpanChatLock {
         } catch (Throwable ignored) { }
     }
 
-    public static void wrapListener(Object ej1, Object menuView, Context context) {
-        if (ej1 == null || menuView == null || context == null) return;
+    public static void wrapListener(Object ej1, Object menuView) {
+        if (ej1 == null || menuView == null) return;
         try {
+            Context context = (Context) menuView.getClass().getMethod("O5").invoke(menuView);
+            if (context == null) return;
             Field hField = ej1.getClass().getField("h");
             Object original = hField.get(ej1);
             if (original == null) return;

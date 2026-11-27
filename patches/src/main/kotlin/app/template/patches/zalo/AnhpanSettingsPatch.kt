@@ -137,21 +137,11 @@ val anhpanSettingsPatch = bytecodePatch(
 
         w6Method.addInstructions(
             n1SetIndex + 1,
-            """
-                invoke-virtual {p0}, Lcom/zing/zalo/ui/chat/contextmenu/ConversationContextMenuView;->O5()Landroid/content/Context;
-                move-result-object v0
-                invoke-static {v$ej1Reg, p0, v0}, $ANHPAN_CHAT_LOCK->wrapListener(Ljava/lang/Object;Ljava/lang/Object;Landroid/content/Context;)V
-            """.trimIndent(),
+            "invoke-static {v$ej1Reg, p0}, $ANHPAN_CHAT_LOCK->wrapListener(Ljava/lang/Object;Ljava/lang/Object;)V",
         )
         w6Method.addInstructions(
             y6CallIndex + 2,
-            """
-                invoke-virtual {p1}, Lpup;->e()Ljava/lang/String;
-                move-result-object v0
-                invoke-virtual {p0}, Lcom/zing/zalo/ui/chat/contextmenu/ConversationContextMenuView;->O5()Landroid/content/Context;
-                move-result-object v1
-                invoke-static {v$listReg, v1, v0}, $ANHPAN_CHAT_LOCK->addLockMenuItem(Ljava/util/List;Landroid/content/Context;Ljava/lang/String;)V
-            """.trimIndent(),
+            "invoke-static {v$listReg, p0, p1}, $ANHPAN_CHAT_LOCK->addLockMenuItem(Ljava/util/List;Ljava/lang/Object;Ljava/lang/Object;)V",
         )
 
         check(ChatInputBarInitFingerprint.matchAll(1..1).size == 1)
