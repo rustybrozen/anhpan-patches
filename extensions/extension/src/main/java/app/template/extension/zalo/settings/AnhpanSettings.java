@@ -59,6 +59,24 @@ public final class AnhpanSettings {
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.DISABLE_UNREAD_HIGHLIGHT, checked).apply()
         );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide media quick heart",
+            "heart",
+            prefs.getBoolean(AnhpanPrefs.HIDE_QUICK_HEART, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_QUICK_HEART, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide media share button",
+            "share",
+            prefs.getBoolean(AnhpanPrefs.HIDE_QUICK_SHARE, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_QUICK_SHARE, checked).apply()
+        );
         page.show();
     }
 }

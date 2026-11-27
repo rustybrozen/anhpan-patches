@@ -60,6 +60,41 @@ internal object ReactionPickerInitFingerprint : Fingerprint(
     parameters = listOf("Landroid/content/Context;", "Z", "Ljava/lang/String;", "Lytk;", "Ljava/lang/String;"),
 )
 
+internal object ChatRowReactionBarFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/chatrow/ChatRow;",
+    name = "I",
+    returnType = "Z",
+    parameters = listOf("Ljug;", "Lvv3;"),
+)
+
+internal object ChatRowShareBtnFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/chatrow/ChatRow;",
+    name = "R0",
+    returnType = "Z",
+    parameters = emptyList(),
+)
+
+internal object ChatRowAvatarClickFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/chatrow/ChatRow;",
+    name = "T1",
+    returnType = "Z",
+    parameters = listOf("F", "F", "I"),
+)
+
+internal object ChatActionBarBtnFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/actionbar/ChatViewActionBarButton;",
+    name = "setIconResId",
+    returnType = "V",
+    parameters = listOf("I"),
+)
+
+internal object ChatInfoViewCreateFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/rightmenu/ChatInfoView;",
+    name = "n5",
+    returnType = "Landroid/view/View;",
+    parameters = listOf("Landroid/view/LayoutInflater;", "Landroid/view/ViewGroup;", "Landroid/os/Bundle;"),
+)
+
 @Suppress("unused")
 val anhpanSettingsPatch = bytecodePatch(
     name = "Anhpan's settings",
@@ -173,6 +208,70 @@ val anhpanSettingsPatch = bytecodePatch(
                 move-object/from16 v0, v$reactionBase
                 invoke-static {v0}, $ANHPAN_CHAT_LOCK->applyReactionPicker(Landroid/view/View;)V
             """.trimIndent(),
+        )
+
+        check(ChatRowReactionBarFingerprint.matchAll(1..1).size == 1)
+        val rowReaction = ChatRowReactionBarFingerprint.method
+        val rowReactionFirst = rowReaction.getInstruction(0)
+        rowReaction.addInstructionsWithLabels(
+            0,
+            """
+                invoke-static {p0}, $ANHPAN_CHAT_LOCK->shouldHideQuickHeart(Landroid/view/View;)Z
+                move-result v0
+                if-eqz v0, :anhpan_orig_heart
+                const/4 v0, 0x0
+                return v0
+            """.trimIndent(),
+            ExternalLabel("anhpan_orig_heart", rowReactionFirst),
+        )
+
+        check(ChatRowShareBtnFingerprint.matchAll(1..1).size == 1)
+        val rowShare = ChatRowShareBtnFingerprint.method
+        val rowShareFirst = rowShare.getInstruction(0)
+        rowShare.addInstructionsWithLabels(
+            0,
+            """
+                invoke-static {p0}, $ANHPAN_CHAT_LOCK->shouldHideQuickShare(Landroid/view/View;)Z
+                move-result v0
+                if-eqz v0, :anhpan_orig_share
+                const/4 v0, 0x0
+                return v0
+            """.trimIndent(),
+            ExternalLabel("anhpan_orig_share", rowShareFirst),
+        )
+
+        check(ChatRowAvatarClickFingerprint.matchAll(1..1).size == 1)
+        val rowAvatar = ChatRowAvatarClickFingerprint.method
+        val rowAvatarFirst = rowAvatar.getInstruction(0)
+        rowAvatar.addInstructionsWithLabels(
+            0,
+            """
+                invoke-static {}, $ANHPAN_CHAT_LOCK->isActiveConvLocked()Z
+                move-result v0
+                if-eqz v0, :anhpan_orig_avatar
+                const/4 v0, 0x0
+                return v0
+            """.trimIndent(),
+            ExternalLabel("anhpan_orig_avatar", rowAvatarFirst),
+        )
+
+        check(ChatActionBarBtnFingerprint.matchAll(1..1).size == 1)
+        val actionBtn = ChatActionBarBtnFingerprint.method
+        val actionBtnRet = actionBtn.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_VOID }
+        check(actionBtnRet >= 0)
+        actionBtn.addInstructions(
+            actionBtnRet,
+            "invoke-static {p0, p1}, $ANHPAN_CHAT_LOCK->applyActionBarButton(Landroid/view/View;I)V",
+        )
+
+        check(ChatInfoViewCreateFingerprint.matchAll(1..1).size == 1)
+        val infoCreate = ChatInfoViewCreateFingerprint.method
+        val infoRet = infoCreate.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_OBJECT }
+        check(infoRet >= 0)
+        val infoRetReg = infoCreate.getInstruction<OneRegisterInstruction>(infoRet).registerA
+        infoCreate.addInstructions(
+            infoRet,
+            "invoke-static {v$infoRetReg}, $ANHPAN_CHAT_LOCK->applyChatInfoView(Landroid/view/View;)V",
         )
     }
 }

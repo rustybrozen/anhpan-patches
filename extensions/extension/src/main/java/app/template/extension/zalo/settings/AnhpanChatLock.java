@@ -33,7 +33,7 @@ public final class AnhpanChatLock {
     }
 
     public static String getMenuTitle(Context context, String convId) {
-        return AnhpanPrefs.isChatLocked(context, convId) ? "Enable chat" : "Disable chat";
+        return AnhpanPrefs.isChatLocked(context, convId) ? "Disable Read-only" : "Enable Read-only";
     }
 
     private static Method findMethod(Class<?> cls, String name, Class<?>... params) throws NoSuchMethodException {
@@ -127,7 +127,7 @@ public final class AnhpanChatLock {
                                     boolean locked = AnhpanPrefs.toggleChatLock(context, convId);
                                     Toast.makeText(
                                         context,
-                                        locked ? "Chat disabled" : "Chat enabled",
+                                        locked ? "Read-only enabled" : "Read-only disabled",
                                         Toast.LENGTH_SHORT
                                     ).show();
                                     try {
@@ -225,5 +225,136 @@ public final class AnhpanChatLock {
         if (picker != null && activeConvLocked) {
             picker.setVisibility(View.GONE);
         }
+    }
+
+    public static boolean isActiveConvLocked() {
+        return activeConvLocked;
+    }
+
+    public static boolean shouldHideQuickHeart(View view) {
+        return activeConvLocked || (view != null && AnhpanPrefs.isQuickHeartHidden(view.getContext()));
+    }
+
+    public static boolean shouldHideQuickShare(View view) {
+        return view != null && AnhpanPrefs.isQuickShareHidden(view.getContext());
+    }
+
+    public static void applyActionBarButton(View button, int resId) {
+        if (!activeConvLocked || button == null || resId == 0) return;
+        try {
+            String name = button.getResources().getResourceEntryName(resId).toLowerCase(java.util.Locale.ROOT);
+            if (name.contains("call") || name.contains("video")) {
+                button.setVisibility(View.GONE);
+            }
+        } catch (Throwable ignored) { }
+    }
+
+    public static void applyChatInfoView(View root) {
+        if (!activeConvLocked || root == null) return;
+        Runnable filter = () -> filterChatInfoTree(root);
+        root.post(filter);
+        if (root instanceof ViewGroup) {
+            root.getViewTreeObserver().addOnGlobalLayoutListener(() -> filterChatInfoTree(root));
+        }
+    }
+
+    private static void filterChatInfoTree(View view) {
+        if (!activeConvLocked || view == null) return;
+        String clsName = view.getClass().getName();
+        if (clsName.endsWith("ZdsActionBar")) {
+            hideActionBarEditButton(view);
+        } else if (clsName.contains("ChatHeaderItemModuleView")) {
+            disableTreeClicks(view);
+        } else if (clsName.contains("SettingHorizontalModuleView")) {
+            hideMatchingHorizontalButtons(view);
+        } else if (clsName.contains("ChatSettingModuleView")) {
+            if (hasBlockedInfoLabel(view)) {
+                view.setVisibility(View.GONE);
+                ViewGroup.LayoutParams lp = view.getLayoutParams();
+                if (lp != null && lp.height != 0) {
+                    lp.height = 0;
+                    view.setLayoutParams(lp);
+                }
+                return;
+            }
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                filterChatInfoTree(vg.getChildAt(i));
+            }
+        }
+    }
+
+    private static void hideActionBarEditButton(View actionBar) {
+        if (!(actionBar instanceof ViewGroup)) return;
+        ViewGroup vg = (ViewGroup) actionBar;
+        for (int i = 0; i < vg.getChildCount(); i++) {
+            View child = vg.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                hideActionBarEditButton(child);
+            } else if (child.isClickable() && !(child instanceof TextView)) {
+                // Keep left back button (x close to 0), hide right edit/rename button
+                if (child.getLeft() > actionBar.getWidth() / 2) {
+                    child.setVisibility(View.GONE);
+                }
+            }
+        }
+    }
+
+    private static void disableTreeClicks(View view) {
+        view.setClickable(false);
+        view.setLongClickable(false);
+        view.setOnClickListener(null);
+        if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                disableTreeClicks(vg.getChildAt(i));
+            }
+        }
+    }
+
+    private static void hideMatchingHorizontalButtons(View view) {
+        if (!(view instanceof ViewGroup)) return;
+        ViewGroup vg = (ViewGroup) view;
+        for (int i = 0; i < vg.getChildCount(); i++) {
+            View child = vg.getChildAt(i);
+            if (containsText(child, "add members", "thêm thành viên", "thêm bạn")) {
+                child.setVisibility(View.GONE);
+            } else if (child instanceof ViewGroup) {
+                hideMatchingHorizontalButtons(child);
+            }
+        }
+    }
+
+    private static boolean hasBlockedInfoLabel(View view) {
+        return containsText(
+            view,
+            "group board", "bảng tin nhóm",
+            "group link", "link tham gia nhóm",
+            "organize conversation", "phân loại",
+            "hide conversation", "ẩn trò chuyện",
+            "report", "báo cáo",
+            "delete conversation", "xóa trò chuyện", "xoá trò chuyện",
+            "leave group", "rời nhóm"
+        );
+    }
+
+    private static boolean containsText(View view, String... targets) {
+        if (view instanceof TextView) {
+            CharSequence cs = ((TextView) view).getText();
+            if (cs != null) {
+                String lower = cs.toString().toLowerCase(java.util.Locale.ROOT);
+                for (String t : targets) {
+                    if (lower.contains(t)) return true;
+                }
+            }
+        } else if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                if (containsText(vg.getChildAt(i), targets)) return true;
+            }
+        }
+        return false;
     }
 }

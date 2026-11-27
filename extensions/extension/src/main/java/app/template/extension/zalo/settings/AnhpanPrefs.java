@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 public final class AnhpanPrefs {
     private static final String PREFS_NAME = "anhpan_zalo_prefs";
     public static final String DISABLE_UNREAD_HIGHLIGHT = "disable_unread_highlight";
+    public static final String HIDE_QUICK_HEART = "hide_quick_heart";
+    public static final String HIDE_QUICK_SHARE = "hide_quick_share";
     private static final String LOCKED_CHATS = "locked_chats";
 
     private AnhpanPrefs() { }
@@ -16,6 +18,14 @@ public final class AnhpanPrefs {
 
     public static boolean isUnreadHighlightDisabled(Context context) {
         return context != null && of(context).getBoolean(DISABLE_UNREAD_HIGHLIGHT, false);
+    }
+
+    public static boolean isQuickHeartHidden(Context context) {
+        return context != null && of(context).getBoolean(HIDE_QUICK_HEART, false);
+    }
+
+    public static boolean isQuickShareHidden(Context context) {
+        return context != null && of(context).getBoolean(HIDE_QUICK_SHARE, false);
     }
 
     public static boolean isChatLocked(Context context, String convId) {
