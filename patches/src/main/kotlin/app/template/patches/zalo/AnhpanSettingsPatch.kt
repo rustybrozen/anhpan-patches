@@ -141,7 +141,11 @@ val anhpanSettingsPatch = bytecodePatch(
         )
         w6Method.addInstructions(
             y6CallIndex + 2,
-            "invoke-static {v$listReg, p0, p1}, $ANHPAN_CHAT_LOCK->addLockMenuItem(Ljava/util/List;Ljava/lang/Object;Ljava/lang/Object;)V",
+            "invoke-static {v$listReg, p0}, $ANHPAN_CHAT_LOCK->addLockMenuItem(Ljava/util/List;Ljava/lang/Object;)V",
+        )
+        w6Method.addInstructions(
+            0,
+            "invoke-static {p1}, $ANHPAN_CHAT_LOCK->captureConvId(Ljava/lang/Object;)V",
         )
 
         check(ChatInputBarInitFingerprint.matchAll(1..1).size == 1)

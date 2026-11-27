@@ -47,14 +47,22 @@ public final class AnhpanChatLock {
         throw new NoSuchFieldException(cls.getName() + "." + name);
     }
 
+    public static void captureConvId(Object pupVar) {
+        if (pupVar == null) return;
+        try {
+            pendingConvId = (String) findMethod(pupVar.getClass(), "e").invoke(pupVar);
+        } catch (Throwable t) {
+            Log.e(TAG, "captureConvId failed", t);
+        }
+    }
+
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static void addLockMenuItem(java.util.List list, Object menuView, Object pupVar) {
-        if (list == null || menuView == null || pupVar == null) return;
+    public static void addLockMenuItem(java.util.List list, Object menuView) {
+        String convId = pendingConvId;
+        if (list == null || menuView == null || convId == null) return;
         try {
             Context context = (Context) findMethod(menuView.getClass(), "O5").invoke(menuView);
-            String convId = (String) findMethod(pupVar.getClass(), "e").invoke(pupVar);
-            pendingConvId = convId;
-            if (context == null || convId == null) return;
+            if (context == null) return;
             ClassLoader cl = menuView.getClass().getClassLoader();
             Class<?> itemCls = cl.loadClass("l7j");
             Class<?> typeCls = cl.loadClass("o7j");
