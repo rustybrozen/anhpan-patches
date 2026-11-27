@@ -137,6 +137,20 @@ internal object MainTabMenuFingerprint : Fingerprint(
     parameters = listOf("Lcom/zing/zalo/zview/actionbar/ActionBarMenu;"),
 )
 
+internal object NormalMsgUnreadHighlightFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;",
+    name = "Z",
+    returnType = "Z",
+    parameters = listOf("Lpup;", "I"),
+)
+
+internal object NormalMsgUnreadBadgeFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;",
+    name = "T",
+    returnType = "V",
+    parameters = listOf("Lpup;", "Z", "I"),
+)
+
 @Suppress("unused")
 val anhpanSettingsPatch = bytecodePatch(
     name = "Anhpan's settings",
@@ -195,6 +209,43 @@ val anhpanSettingsPatch = bytecodePatch(
                 return v0
             """.trimIndent(),
             ExternalLabel("anhpan_original_unread", firstInstruction),
+        )
+
+        check(NormalMsgUnreadHighlightFingerprint.matchAll(1..1).size == 1)
+        val normalUnread = NormalMsgUnreadHighlightFingerprint.method
+        val normalUnreadBase = normalUnread.implementation!!.registerCount - 3
+        val normalUnreadFirst = normalUnread.getInstruction(0)
+        normalUnread.addInstructionsWithLabels(
+            0,
+            """
+                move-object/from16 v0, v$normalUnreadBase
+                move-object/from16 v1, v${normalUnreadBase + 1}
+                invoke-static {v0, v1}, $ANHPAN_SETTINGS->shouldDisableUnreadHighlight(Landroid/view/View;Ljava/lang/Object;)Z
+                move-result v0
+                if-eqz v0, :anhpan_normal_unread
+                const/4 v0, 0x0
+                return v0
+            """.trimIndent(),
+            ExternalLabel("anhpan_normal_unread", normalUnreadFirst),
+        )
+
+        check(NormalMsgUnreadBadgeFingerprint.matchAll(1..1).size == 1)
+        val normalBadge = NormalMsgUnreadBadgeFingerprint.method
+        val normalBadgeBase = normalBadge.implementation!!.registerCount - 4
+        val normalBadgeFirst = normalBadge.getInstruction(0)
+        normalBadge.addInstructionsWithLabels(
+            0,
+            """
+                move-object/from16 v0, v$normalBadgeBase
+                move-object/from16 v1, v${normalBadgeBase + 1}
+                invoke-static {v0, v1}, $ANHPAN_SETTINGS->shouldDisableUnreadHighlight(Landroid/view/View;Ljava/lang/Object;)Z
+                move-result v0
+                if-eqz v0, :anhpan_normal_badge
+                move-object/from16 v0, v$normalBadgeBase
+                invoke-static {v0}, $ANHPAN_CHAT_LOCK->hideUnreadBadge(Landroid/view/View;)V
+                return-void
+            """.trimIndent(),
+            ExternalLabel("anhpan_normal_badge", normalBadgeFirst),
         )
 
         check(ContextMenuW6Fingerprint.matchAll(1..1).size == 1)

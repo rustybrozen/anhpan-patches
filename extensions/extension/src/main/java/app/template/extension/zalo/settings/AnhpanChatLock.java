@@ -305,40 +305,26 @@ public final class AnhpanChatLock {
         while (cur instanceof View) {
             View v = (View) cur;
             if (v.getClass().getName().endsWith("ZdsActionBar")) {
-                disableTitleClicks(v);
+                try {
+                    Object middle = findMethod(v.getClass(), "getMiddleContainer").invoke(v);
+                    if (middle instanceof View) {
+                        blockTouchTree((View) middle);
+                    }
+                } catch (Throwable ignored) { }
                 break;
             }
             cur = cur.getParent();
         }
     }
 
-    private static void disableTitleClicks(View view) {
-        if (!(view instanceof ViewGroup)) return;
-        ViewGroup vg = (ViewGroup) view;
-        for (int i = 0; i < vg.getChildCount(); i++) {
-            View child = vg.getChildAt(i);
-            if (child instanceof TextView) {
-                blockTouchTree(child);
-            } else if (child instanceof ViewGroup) {
-                if (hasAnyActionButton(child)) {
-                    disableTitleClicks(child);
-                } else if (hasAnyTextView(child)) {
-                    blockTouchTree(child);
-                }
+    public static void hideUnreadBadge(View moduleView) {
+        if (moduleView == null) return;
+        try {
+            Object badge = findMethod(moduleView.getClass(), "getMUnreadBadge").invoke(moduleView);
+            if (badge != null) {
+                findMethod(badge.getClass(), "o0", int.class).invoke(badge, View.GONE);
             }
-        }
-    }
-
-    private static boolean hasAnyActionButton(View view) {
-        String cls = view.getClass().getName();
-        if (cls.contains("ActionBarButton") || view instanceof android.widget.ImageView) return true;
-        if (view instanceof ViewGroup) {
-            ViewGroup vg = (ViewGroup) view;
-            for (int i = 0; i < vg.getChildCount(); i++) {
-                if (hasAnyActionButton(vg.getChildAt(i))) return true;
-            }
-        }
-        return false;
+        } catch (Throwable ignored) { }
     }
 
     public static boolean shouldDisableChatHighlight(Context context, Object pupVar) {
@@ -450,17 +436,6 @@ public final class AnhpanChatLock {
                 }
             } catch (Throwable ignored) { }
         }
-    }
-
-    private static boolean hasAnyTextView(View view) {
-        if (view instanceof TextView) return true;
-        if (view instanceof ViewGroup) {
-            ViewGroup vg = (ViewGroup) view;
-            for (int i = 0; i < vg.getChildCount(); i++) {
-                if (hasAnyTextView(vg.getChildAt(i))) return true;
-            }
-        }
-        return false;
     }
 
     @SuppressWarnings("unchecked")
