@@ -1,3 +1,9 @@
+## [1.2.0-dev.3](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.2...v1.2.0-dev.3) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* skip fullscreen background views when hit-testing UI elements ([2e883b9](https://github.com/rustybrozen/anhpan-patches/commit/2e883b911162b96fc870b3d1aa712d28f342124f))
+
 ## [1.2.0-dev.2](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.1...v1.2.0-dev.2) (2026-11-27)
 
 ### ✨ New Features
