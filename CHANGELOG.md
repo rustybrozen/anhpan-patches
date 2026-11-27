@@ -1,3 +1,9 @@
+## [1.1.0-dev.17](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.16...v1.1.0-dev.17) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* chat highlight not working and search button unclickable in read-only ([d270507](https://github.com/rustybrozen/anhpan-patches/commit/d2705077f45d9f12f77fbb8a28b7ea028739e1f2))
+
 ## [1.1.0-dev.16](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.15...v1.1.0-dev.16) (2026-11-27)
 
 ### 🐛 Bug Fixes

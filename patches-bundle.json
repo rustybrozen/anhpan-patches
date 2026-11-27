@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T06:23:31",
-  "description": "## [1.1.0-dev.16](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.15...v1.1.0-dev.16) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* properly hide QR button add button and search bar on Messages tab ([d948926](https://github.com/rustybrozen/anhpan-patches/commit/d9489266b092b14fd1ededfe72d877a365616d36))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.16/patches-1.1.0-dev.16.mpp",
+  "created_at": "2026-11-27T06:32:50",
+  "description": "## [1.1.0-dev.17](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.16...v1.1.0-dev.17) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* chat highlight not working and search button unclickable in read-only ([d270507](https://github.com/rustybrozen/anhpan-patches/commit/d2705077f45d9f12f77fbb8a28b7ea028739e1f2))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.17/patches-1.1.0-dev.17.mpp",
   "signature_download_url": "",
-  "version": "1.1.0-dev.16"
+  "version": "1.1.0-dev.17"
 }
