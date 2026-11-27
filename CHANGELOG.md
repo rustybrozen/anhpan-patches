@@ -1,3 +1,9 @@
+## [1.1.0-dev.9](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.8...v1.1.0-dev.9) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* resolve VerifyError in ReactionPickerView constructor hook ([b4a5c6a](https://github.com/rustybrozen/anhpan-patches/commit/b4a5c6a9db3c9a943fd711f0f7be1fa348ec889c))
+
 ## [1.1.0-dev.8](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.7...v1.1.0-dev.8) (2026-11-27)
 
 ### 🐛 Bug Fixes
