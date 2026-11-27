@@ -6,6 +6,18 @@
 
 ### 🐛 Bug Fixes
 
+* trigger dev release ([a8f2639](https://github.com/rustybrozen/anhpan-patches/commit/a8f26392de2b8d4d81ce4bfb6dfe53044d3ace38))
+* use explicit v-registers in chat lock hooks ([93bef99](https://github.com/rustybrozen/anhpan-patches/commit/93bef998034055cd4be557a43bf93bd2a6ada6f0))
+* use untyped getInstruction 0 for unread highlight hook ([72029b1](https://github.com/rustybrozen/anhpan-patches/commit/72029b11e9419dbd39e83d175996496331c989a4))
+
+## [1.1.0-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.0.0...v1.1.0-dev.1) (2026-11-27)
+
+### ✨ New Features
+
+* add per-chat disable option and pre-release on dev ([01e99b6](https://github.com/rustybrozen/anhpan-patches/commit/01e99b6dc7b3d23fd6cc3b5135acf054eec07c06))
+
+### 🐛 Bug Fixes
+
 * use explicit v-registers in chat lock hooks ([93bef99](https://github.com/rustybrozen/anhpan-patches/commit/93bef998034055cd4be557a43bf93bd2a6ada6f0))
 * use untyped getInstruction 0 for unread highlight hook ([72029b1](https://github.com/rustybrozen/anhpan-patches/commit/72029b11e9419dbd39e83d175996496331c989a4))
 
