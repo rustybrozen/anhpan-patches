@@ -109,7 +109,7 @@ public final class UiInspector {
         }
         fab.setX(fabX);
         fab.setY(fabY);
-        updateFabAppearance(fab);
+        updateFabAppearance(fab, activity);
         fab.bringToFront();
     }
 
@@ -159,7 +159,7 @@ public final class UiInspector {
                             inspectMode = !inspectMode;
                             overlay.setVisibility(inspectMode ? View.VISIBLE : View.GONE);
                             overlay.clearHighlight();
-                            updateFabAppearance(fab);
+                            updateFabAppearance(fab, activity);
                             Toast.makeText(activity,
                                     inspectMode ? "UI Inspector: ON (tap to tag, double-tap to click)" : "UI Inspector: OFF",
                                     Toast.LENGTH_SHORT).show();
@@ -173,34 +173,69 @@ public final class UiInspector {
         return fab;
     }
 
-    private static void updateFabAppearance(TextView fab) {
+    private static void updateFabAppearance(TextView fab, Context context) {
+        int count = loadTags(context).length();
+        fab.setText(count > 0 ? "UI\n(" + count + ")" : "UI");
+        fab.setTextSize(count > 0 ? 10f : 12f);
         GradientDrawable bg = new GradientDrawable();
         bg.setShape(GradientDrawable.OVAL);
         bg.setColor(inspectMode ? Color.argb(230, 220, 53, 69) : Color.argb(200, 33, 37, 41));
-        bg.setStroke(dp(fab.getContext(), 2), Color.WHITE);
+        bg.setStroke(dp(context, 2), Color.WHITE);
         fab.setBackground(bg);
+    }
+
+    private static void refreshCurrentFab(Context context) {
+        Activity act = currentActivity.get();
+        if (act == null || act.getWindow() == null) {
+            return;
+        }
+        View fab = act.getWindow().getDecorView().findViewById(TAG_FAB);
+        if (fab instanceof TextView) {
+            updateFabAppearance((TextView) fab, context);
+        }
     }
 
     private static void showInspectorMenu(Activity activity) {
         JSONArray tags = loadTags(activity);
-        String[] items = new String[] {
-                "Copy JSON (" + tags.length() + " tags)",
-                "Export JSON to Downloads",
-                "Clear all tags"
-        };
-        new AlertDialog.Builder(activity)
-                .setTitle("UI Inspector")
-                .setItems(items, (dialog, which) -> {
-                    if (which == 0) {
-                        copyJson(activity, tags);
-                    } else if (which == 1) {
-                        exportJson(activity, tags);
-                    } else if (which == 2) {
-                        saveTags(activity, new JSONArray());
-                        Toast.makeText(activity, "Cleared all tags", Toast.LENGTH_SHORT).show();
-                    }
+        String[] items = new String[tags.length()];
+        for (int i = 0; i < tags.length(); i++) {
+            JSONObject obj = tags.optJSONObject(i);
+            String note = obj != null ? obj.optString("note", "") : "";
+            String cls = obj != null ? obj.optString("class", "") : "";
+            String shortCls = cls.contains(".") ? cls.substring(cls.lastIndexOf('.') + 1) : cls;
+            String id = obj != null ? obj.optString("id", "NO_ID") : "NO_ID";
+            String shortId = id.contains("/") ? id.substring(id.indexOf('/') + 1) : id;
+            items[i] = "#" + (i + 1) + " " + (note.isEmpty() ? "(no note)" : note)
+                    + "\n    " + shortCls + " [" + shortId + "]";
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                .setTitle("Saved UI Tags (" + tags.length() + ")");
+
+        if (tags.length() == 0) {
+            builder.setMessage("No tags saved yet. Turn on UI Inspector and tap any element to add a note.");
+        } else {
+            builder.setItems(items, (dialog, which) -> {
+                JSONObject obj = tags.optJSONObject(which);
+                if (obj != null) {
+                    try {
+                        new AlertDialog.Builder(activity)
+                                .setTitle("Tag #" + (which + 1))
+                                .setMessage(obj.toString(2))
+                                .setPositiveButton("OK", null)
+                                .show();
+                    } catch (Exception ignored) { }
+                }
+            });
+        }
+
+        builder.setPositiveButton("Copy JSON", (d, w) -> copyJson(activity, tags))
+                .setNeutralButton("Export", (d, w) -> exportJson(activity, tags))
+                .setNegativeButton("Clear", (d, w) -> {
+                    saveTags(activity, new JSONArray());
+                    refreshCurrentFab(activity);
+                    Toast.makeText(activity, "Cleared all tags", Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Close", null)
                 .show();
     }
 
@@ -465,7 +500,7 @@ public final class UiInspector {
             container.addView(info);
 
             EditText input = new EditText(activity);
-            input.setHint("Custom name (e.g. btn_group_settings)");
+            input.setHint("Note (e.g. card chat muon an avatar)");
             container.addView(input);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(activity)
@@ -474,7 +509,7 @@ public final class UiInspector {
                     .setPositiveButton("Save", (d, w) -> {
                         try {
                             JSONObject obj = new JSONObject();
-                            obj.put("name", input.getText().toString().trim());
+                            obj.put("note", input.getText().toString().trim());
                             obj.put("activity", activity.getClass().getName());
                             obj.put("class", cls);
                             obj.put("id", resName);
@@ -482,6 +517,7 @@ public final class UiInspector {
                             obj.put("contentDescription", desc);
                             obj.put("path", path);
                             addTag(activity, obj);
+                            refreshCurrentFab(activity);
                             Toast.makeText(activity, "Saved tag", Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             Toast.makeText(activity, "Save failed", Toast.LENGTH_SHORT).show();
