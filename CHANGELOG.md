@@ -1,3 +1,9 @@
+## [1.1.0-dev.15](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.14...v1.1.0-dev.15) (2026-11-27)
+
+### ✨ New Features
+
+* add UI hiding options per-chat highlight toggle and Read-only avatar/name options ([e8786dc](https://github.com/rustybrozen/anhpan-patches/commit/e8786dc52cedeb5ea810b8db7061cad62374b354))
+
 ## [1.1.0-dev.14](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.13...v1.1.0-dev.14) (2026-11-27)
 
 ### ✨ New Features

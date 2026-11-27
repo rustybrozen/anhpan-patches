@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T05:58:51",
-  "description": "## [1.1.0-dev.14](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.13...v1.1.0-dev.14) (2026-11-27)\n\n### ✨ New Features\n\n* hide right menu button and disable group title tap in Read-only mode ([94fbc29](https://github.com/rustybrozen/anhpan-patches/commit/94fbc291be87e93719b01d6acc4a612b1aa2c98b))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.14/patches-1.1.0-dev.14.mpp",
+  "created_at": "2026-11-27T06:16:07",
+  "description": "## [1.1.0-dev.15](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.14...v1.1.0-dev.15) (2026-11-27)\n\n### ✨ New Features\n\n* add UI hiding options per-chat highlight toggle and Read-only avatar/name options ([e8786dc](https://github.com/rustybrozen/anhpan-patches/commit/e8786dc52cedeb5ea810b8db7061cad62374b354))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.15/patches-1.1.0-dev.15.mpp",
   "signature_download_url": "",
-  "version": "1.1.0-dev.14"
+  "version": "1.1.0-dev.15"
 }
