@@ -103,7 +103,7 @@ public final class AnhpanUiHelper {
             Object profile = cField.get(pupVar);
             if (profile != null) {
                 String s = profile.toString();
-                return s.contains("Cloud của tôi") || s.contains("My Cloud");
+                return s.contains("Cloud của tôi") || s.contains("My Cloud") || s.contains("My Documents");
             }
         } catch (Throwable ignored) { }
         return false;

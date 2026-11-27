@@ -159,6 +159,38 @@ public final class AnhpanChatLock {
                                     } catch (Throwable ignored) { }
                                     return null;
                                 }
+                                if (idVal instanceof Integer && ((Integer) idVal) == PREVIEW_ITEM_ID) {
+                                    String convId = pendingConvId;
+                                    boolean hidden = AnhpanPrefs.toggleChatPreviewHidden(context, convId);
+                                    Toast.makeText(context, hidden ? "Preview hidden" : "Preview shown", Toast.LENGTH_SHORT).show();
+                                    try { findMethod(menuView.getClass(), "d7").invoke(menuView); } catch (Throwable ignored) { }
+                                    return null;
+                                }
+                                if (idVal instanceof Integer && ((Integer) idVal) == AVATAR_ITEM_ID) {
+                                    String convId = pendingConvId;
+                                    boolean hidden = AnhpanPrefs.toggleChatAvatarHidden(context, convId);
+                                    Toast.makeText(context, hidden ? "Avatar hidden" : "Avatar shown", Toast.LENGTH_SHORT).show();
+                                    try { findMethod(menuView.getClass(), "d7").invoke(menuView); } catch (Throwable ignored) { }
+                                    return null;
+                                }
+                                if (idVal instanceof Integer && ((Integer) idVal) == RENAME_ITEM_ID) {
+                                    String convId = pendingConvId;
+                                    try { findMethod(menuView.getClass(), "d7").invoke(menuView); } catch (Throwable ignored) { }
+                                    android.app.AlertDialog.Builder b = new android.app.AlertDialog.Builder(context);
+                                    b.setTitle("Rename (Client)");
+                                    final android.widget.EditText input = new android.widget.EditText(context);
+                                    String cur = AnhpanPrefs.getCustomName(context, convId);
+                                    if (cur != null) input.setText(cur);
+                                    input.setHint("Leave empty to reset");
+                                    b.setView(input);
+                                    b.setPositiveButton("Save", (d, w) -> {
+                                        AnhpanPrefs.setCustomName(context, convId, input.getText().toString());
+                                        Toast.makeText(context, "Saved client name", Toast.LENGTH_SHORT).show();
+                                    });
+                                    b.setNegativeButton("Cancel", null);
+                                    b.show();
+                                    return null;
+                                }
                                 if (idVal instanceof Integer && ((Integer) idVal) == HIGHLIGHT_ITEM_ID) {
                                     String convId = pendingConvId;
                                     boolean overridden = AnhpanPrefs.isReadOnlyEnabled(context)

@@ -202,15 +202,6 @@ public final class AnhpanSettings {
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.STRIP_PREVIEW_EMOJI, checked).apply()
         );
-        ZaloUi.toggleRow(
-            list,
-            context,
-            "Remove emoji in name (keep single)",
-            "eye_off",
-            prefs.getBoolean(AnhpanPrefs.STRIP_NAME_EMOJI, false),
-            darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.STRIP_NAME_EMOJI, checked).apply()
-        );
 
         page.show();
     }
