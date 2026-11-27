@@ -1,3 +1,9 @@
+## [1.1.0-dev.5](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.4...v1.1.0-dev.5) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* use declared reflection and logging in AnhpanChatLock ([81f230d](https://github.com/rustybrozen/anhpan-patches/commit/81f230d4a1813dbfec1664516f7c5c7ea470332b))
+
 ## [1.1.0-dev.4](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.3...v1.1.0-dev.4) (2026-11-27)
 
 ### 🐛 Bug Fixes
