@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.0.0...v1.0.1) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* use untyped getInstruction 0 for unread highlight hook ([72029b1](https://github.com/rustybrozen/anhpan-patches/commit/72029b11e9419dbd39e83d175996496331c989a4))
+
 ## 1.0.0 (2026-11-27)
 
 ### ✨ New Features
