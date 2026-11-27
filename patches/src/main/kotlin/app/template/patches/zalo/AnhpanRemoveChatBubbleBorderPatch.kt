@@ -7,9 +7,8 @@ import com.android.tools.smali.dexlib2.AccessFlags
 
 internal object ChatRowTextLayoutFingerprint : Fingerprint(
     definingClass = "Lcom/zing/zalo/ui/chat/chatrow/ChatRowText;",
-    name = "onLayout",
+    name = "j1",
     returnType = "V",
-    accessFlags = listOf(AccessFlags.PROTECTED),
     parameters = listOf("Z", "I", "I", "I", "I"),
 )
 
