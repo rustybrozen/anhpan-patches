@@ -1,6 +1,6 @@
 # Patches
 
-> Generated from `patches-list.json` — **v1.2.0-dev.4** (`dev`) · **5 patches** across **1 app** · back to [README](README.md)
+> Generated from `patches-list.json` — **v1.2.0-dev.5** (`dev`) · **7 patches** across **1 app** · back to [README](README.md)
 
 ---
 
@@ -10,9 +10,11 @@
 
 | Patch | Details |
 |---|---|
-| **Anhpan's settings** | Settings entry in Zalo and long-press context menu hook. Required by other Anhpan patches. |
 | **Chat highlight toggle** | Per-conversation highlight toggle via long-press. Requires Anhpan's settings. |
+| **Hide read-only subtitle** | Hides the subtitle below the chat title when in read-only mode (configurable in Anhpan's settings). |
 | **Read-only mode** | Lock individual chats into read-only via long-press. Requires Anhpan's settings. |
+| **Remove chat bubble border** | Removes the chat bubble border/background on text messages (configurable in Anhpan's settings). |
+| **Rename read-only label** | Replaces 'This chat is locked.' with '(Read Only)' in read-only chats. |
 | **UI tweaks** | Hides search bar, QR button and add (+) button on the Messages tab. Requires Anhpan's settings. |
 
 ---

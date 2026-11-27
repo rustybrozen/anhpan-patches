@@ -1,3 +1,9 @@
+## [1.2.0-dev.5](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.4...v1.2.0-dev.5) (2026-11-27)
+
+### ✨ New Features
+
+* add read-only label subtitle bubble border patches and fullscreen settings ([0bcbad1](https://github.com/rustybrozen/anhpan-patches/commit/0bcbad102b8bc03096f5d922e12654d65fa31e28))
+
 ## [1.2.0-dev.4](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.3...v1.2.0-dev.4) (2026-11-27)
 
 ### ✨ New Features
