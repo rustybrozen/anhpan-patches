@@ -1,3 +1,9 @@
+## [1.1.0-dev.2](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.1...v1.1.0-dev.2) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* bump dev pre-release ([1171ac9](https://github.com/rustybrozen/anhpan-patches/commit/1171ac941df271aab475651fde79d144656f5261))
+
 ## [1.1.0-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.0.0...v1.1.0-dev.1) (2026-11-27)
 
 ### ✨ New Features
