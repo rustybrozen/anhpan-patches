@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T10:12:33",
-  "description": "## [1.2.0-dev.7](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.6...v1.2.0-dev.7) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* add Rename/Preview/Avatar menu handlers My Documents and subtitle hook ([c1edffc](https://github.com/rustybrozen/anhpan-patches/commit/c1edffcc1765511abf1758a39199b254e9ca08b4))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.2.0-dev.7/patches-1.2.0-dev.7.mpp",
+  "created_at": "2026-11-27T10:25:23",
+  "description": "## [1.2.0-dev.8](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.7...v1.2.0-dev.8) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* hook ChatRowText.j1 for bubble border removal ([44a9467](https://github.com/rustybrozen/anhpan-patches/commit/44a94671db340ee6026899baf61495c6f71288a0))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.2.0-dev.8/patches-1.2.0-dev.8.mpp",
   "signature_download_url": "",
-  "version": "1.2.0-dev.7"
+  "version": "1.2.0-dev.8"
 }

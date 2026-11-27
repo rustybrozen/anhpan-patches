@@ -1,3 +1,9 @@
+## [1.2.0-dev.8](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.7...v1.2.0-dev.8) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* hook ChatRowText.j1 for bubble border removal ([44a9467](https://github.com/rustybrozen/anhpan-patches/commit/44a94671db340ee6026899baf61495c6f71288a0))
+
 ## [1.2.0-dev.7](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.6...v1.2.0-dev.7) (2026-11-27)
 
 ### 🐛 Bug Fixes
