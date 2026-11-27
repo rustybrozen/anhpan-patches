@@ -1,9 +1,19 @@
 package app.template.extension.zalo.settings;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import app.template.extension.zalo.ui.ZaloUi;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -101,40 +111,109 @@ public final class AnhpanChatLock {
                 original.getClass().getClassLoader(),
                 interfaces,
                 (p, method, args) -> {
-                    if (args != null && args.length > 0 && args[0] != null) {
-                        try {
-                            Object idVal = (args[0] instanceof Integer)
-                                ? args[0]
-                                : findMethod(args[0].getClass(), "getId").invoke(args[0]);
-                            if (idVal instanceof Integer && ((Integer) idVal) == MENU_ITEM_ID) {
-                                String convId = pendingConvId;
-                                boolean locked = AnhpanPrefs.toggleChatLock(context, convId);
-                                Toast.makeText(
-                                    context,
-                                    locked ? "Chat disabled" : "Chat enabled",
-                                    Toast.LENGTH_SHORT
-                                ).show();
-                                try {
-                                    findMethod(menuView.getClass(), "d7").invoke(menuView);
-                                } catch (Throwable ignored) { }
-                                return null;
+                    if (args != null) {
+                        for (Object arg : args) {
+                            if (arg == null) continue;
+                            try {
+                                Object idVal = null;
+                                if ("l7j".equals(arg.getClass().getName())) {
+                                    idVal = findMethod(arg.getClass(), "getId").invoke(arg);
+                                } else if (arg instanceof Integer) {
+                                    idVal = arg;
+                                }
+                                if (idVal instanceof Integer && ((Integer) idVal) == MENU_ITEM_ID) {
+                                    String convId = pendingConvId;
+                                    boolean locked = AnhpanPrefs.toggleChatLock(context, convId);
+                                    Toast.makeText(
+                                        context,
+                                        locked ? "Chat disabled" : "Chat enabled",
+                                        Toast.LENGTH_SHORT
+                                    ).show();
+                                    try {
+                                        findMethod(menuView.getClass(), "d7").invoke(menuView);
+                                    } catch (Throwable ignored) { }
+                                    return null;
+                                }
+                            } catch (Throwable t) {
+                                Log.e(TAG, "proxy click error", t);
                             }
-                        } catch (Throwable t) {
-                            Log.e(TAG, "proxy click error", t);
                         }
                     }
                     return method.invoke(original, args);
                 }
             );
             hField.set(ej1, proxy);
-        } catch (Throwable ignored) { }
+        } catch (Throwable t) {
+            Log.e(TAG, "wrapListener failed", t);
+        }
     }
 
     public static void applyInputBar(View inputBar, String convId) {
         if (inputBar == null || convId == null) return;
-        if (AnhpanPrefs.isChatLocked(inputBar.getContext(), convId)) {
+        Context context = inputBar.getContext();
+        if (!AnhpanPrefs.isChatLocked(context, convId)) return;
+        if (!(inputBar instanceof ViewGroup)) {
             inputBar.setVisibility(View.GONE);
+            return;
         }
+        ViewGroup group = (ViewGroup) inputBar;
+        for (int i = 0; i < group.getChildCount(); i++) {
+            group.getChildAt(i).setVisibility(View.GONE);
+        }
+        boolean dark = ZaloUi.isDarkMode(context, inputBar);
+        int bg = dark ? 0xFF1F2229 : 0xFFF4F5F7;
+        int border = dark ? 0xFF2D313B : 0xFFE5E7EB;
+        int textColor = dark ? 0xFFB0B5C0 : 0xFF5A606D;
+        int iconColor = 0xFF4D8EFF;
+
+        LinearLayout banner = new LinearLayout(context);
+        banner.setTag("anhpan-locked-banner");
+        banner.setOrientation(LinearLayout.HORIZONTAL);
+        banner.setGravity(Gravity.CENTER);
+        banner.setBackgroundColor(bg);
+        banner.setClickable(true);
+        banner.setFocusable(true);
+        int padV = dp(context, 14);
+        int padH = dp(context, 16);
+        banner.setPadding(padH, padV, padH, padV);
+
+        View divider = new View(context);
+        divider.setBackgroundColor(border);
+
+        TextView icon = new TextView(context);
+        icon.setText("i");
+        icon.setTextColor(iconColor);
+        icon.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        icon.setTypeface(Typeface.SERIF, Typeface.BOLD);
+        icon.setGravity(Gravity.CENTER);
+        GradientDrawable circle = new GradientDrawable();
+        circle.setShape(GradientDrawable.OVAL);
+        circle.setStroke(dp(context, 1.5f), iconColor);
+        icon.setBackground(circle);
+        int iconSize = dp(context, 18);
+        LinearLayout.LayoutParams iconLp = new LinearLayout.LayoutParams(iconSize, iconSize);
+        iconLp.setMarginEnd(dp(context, 8));
+        banner.addView(icon, iconLp);
+
+        TextView label = new TextView(context);
+        label.setText("This chat is locked.");
+        label.setTextColor(textColor);
+        label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        banner.addView(label);
+
+        LinearLayout wrapper = new LinearLayout(context);
+        wrapper.setOrientation(LinearLayout.VERTICAL);
+        wrapper.addView(divider, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(context, 1)));
+        wrapper.addView(banner, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        group.addView(wrapper, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    }
+
+    private static int dp(Context context, float value) {
+        return Math.round(TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            value,
+            context.getResources().getDisplayMetrics()
+        ));
     }
 
     public static void applyReactionPicker(View picker, String convId) {
