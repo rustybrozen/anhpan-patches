@@ -1,14 +1,17 @@
 package app.template.extension.zalo.settings;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public final class AnhpanChatLock {
+    private static final String TAG = "AnhpanChatLock";
     public static final int MENU_ITEM_ID = 0x414E4850;
     private static String pendingConvId;
 
@@ -22,18 +25,41 @@ public final class AnhpanChatLock {
         return AnhpanPrefs.isChatLocked(context, convId) ? "Enable chat" : "Disable chat";
     }
 
+    private static Method findMethod(Class<?> cls, String name, Class<?>... params) throws NoSuchMethodException {
+        for (Class<?> cur = cls; cur != null; cur = cur.getSuperclass()) {
+            try {
+                Method m = cur.getDeclaredMethod(name, params);
+                m.setAccessible(true);
+                return m;
+            } catch (NoSuchMethodException ignored) { }
+        }
+        throw new NoSuchMethodException(cls.getName() + "." + name);
+    }
+
+    private static Field findField(Class<?> cls, String name) throws NoSuchFieldException {
+        for (Class<?> cur = cls; cur != null; cur = cur.getSuperclass()) {
+            try {
+                Field f = cur.getDeclaredField(name);
+                f.setAccessible(true);
+                return f;
+            } catch (NoSuchFieldException ignored) { }
+        }
+        throw new NoSuchFieldException(cls.getName() + "." + name);
+    }
+
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void addLockMenuItem(java.util.List list, Object menuView, Object pupVar) {
         if (list == null || menuView == null || pupVar == null) return;
         try {
-            Context context = (Context) menuView.getClass().getMethod("O5").invoke(menuView);
-            String convId = (String) pupVar.getClass().getMethod("e").invoke(pupVar);
+            Context context = (Context) findMethod(menuView.getClass(), "O5").invoke(menuView);
+            String convId = (String) findMethod(pupVar.getClass(), "e").invoke(pupVar);
             pendingConvId = convId;
             if (context == null || convId == null) return;
-            Class<?> itemCls = Class.forName("l7j");
-            Class<?> typeCls = Class.forName("o7j");
+            ClassLoader cl = menuView.getClass().getClassLoader();
+            Class<?> itemCls = cl.loadClass("l7j");
+            Class<?> typeCls = cl.loadClass("o7j");
             Object normalType = Enum.valueOf((Class<Enum>) typeCls, "NORMAL");
-            java.lang.reflect.Constructor<?> ctor = itemCls.getConstructor(
+            Constructor<?> ctor = itemCls.getDeclaredConstructor(
                 int.class,
                 android.graphics.drawable.Drawable.class,
                 String.class,
@@ -41,17 +67,20 @@ public final class AnhpanChatLock {
                 typeCls,
                 int.class
             );
+            ctor.setAccessible(true);
             Object item = ctor.newInstance(MENU_ITEM_ID, null, getMenuTitle(context, convId), true, normalType, 0);
             list.add(item);
-        } catch (Throwable ignored) { }
+        } catch (Throwable t) {
+            Log.e(TAG, "addLockMenuItem failed", t);
+        }
     }
 
     public static void wrapListener(Object ej1, Object menuView) {
         if (ej1 == null || menuView == null) return;
         try {
-            Context context = (Context) menuView.getClass().getMethod("O5").invoke(menuView);
+            Context context = (Context) findMethod(menuView.getClass(), "O5").invoke(menuView);
             if (context == null) return;
-            Field hField = ej1.getClass().getField("h");
+            Field hField = findField(ej1.getClass(), "h");
             Object original = hField.get(ej1);
             if (original == null) return;
             Class<?> listenerType = hField.getType();
