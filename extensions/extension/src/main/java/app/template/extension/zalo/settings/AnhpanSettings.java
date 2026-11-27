@@ -86,7 +86,7 @@ public final class AnhpanSettings {
             context,
             "Chat highlight toggle",
             "eye_off",
-            prefs.getBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, true),
+            prefs.getBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, false),
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, checked).apply()
         );
@@ -115,7 +115,7 @@ public final class AnhpanSettings {
             context,
             "Read-only mode",
             "eye_off",
-            prefs.getBoolean(AnhpanPrefs.ENABLE_READ_ONLY, true),
+            prefs.getBoolean(AnhpanPrefs.ENABLE_READ_ONLY, false),
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.ENABLE_READ_ONLY, checked).apply()
         );
@@ -145,24 +145,6 @@ public final class AnhpanSettings {
             prefs.getBoolean(AnhpanPrefs.READ_ONLY_NO_COLOR_NAME, false),
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.READ_ONLY_NO_COLOR_NAME, checked).apply()
-        );
-        ZaloUi.toggleRow(
-            list,
-            context,
-            "Hide subtitle in Read-only",
-            "eye_off",
-            prefs.getBoolean(AnhpanPrefs.HIDE_READ_ONLY_SUBTITLE, false),
-            darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_READ_ONLY_SUBTITLE, checked).apply()
-        );
-        ZaloUi.toggleRow(
-            list,
-            context,
-            "Remove chat bubble border",
-            "eye_off",
-            prefs.getBoolean(AnhpanPrefs.REMOVE_CHAT_BUBBLE_BORDER, false),
-            darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.REMOVE_CHAT_BUBBLE_BORDER, checked).apply()
         );
 
         ZaloUi.addGroup(list, context, "Chat List", darkMode);
@@ -196,11 +178,11 @@ public final class AnhpanSettings {
         ZaloUi.toggleRow(
             list,
             context,
-            "Remove emoji in preview",
+            "Hide chat date/time",
             "eye_off",
-            prefs.getBoolean(AnhpanPrefs.STRIP_PREVIEW_EMOJI, false),
+            prefs.getBoolean(AnhpanPrefs.HIDE_CHAT_TIME, false),
             darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.STRIP_PREVIEW_EMOJI, checked).apply()
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_CHAT_TIME, checked).apply()
         );
 
         page.show();

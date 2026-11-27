@@ -10,7 +10,7 @@ public final class AnhpanUiHelper {
 
     public static CharSequence filterReadOnlyLabel(CharSequence text) {
         if (text != null && "This chat is locked.".contentEquals(text)) {
-            return "(Read Only)";
+            return "";
         }
         return text;
     }
@@ -96,12 +96,89 @@ public final class AnhpanUiHelper {
             view.setVisibility(View.VISIBLE);
         }
 
+        try {
+            Object timeModule = view.getClass().getMethod("getMTime").invoke(view);
+            if (timeModule != null) {
+                String timeText = "";
+                for (Class<?> cls = timeModule.getClass(); cls != null && timeText.isEmpty(); cls = cls.getSuperclass()) {
+                    for (java.lang.reflect.Field f : cls.getDeclaredFields()) {
+                        if (CharSequence.class.isAssignableFrom(f.getType())) {
+                            f.setAccessible(true);
+                            Object v = f.get(timeModule);
+                            if (v instanceof CharSequence && v.toString().length() > 0) {
+                                timeText = v.toString();
+                                break;
+                            }
+                        }
+                    }
+                }
+                boolean isDraft = "Draft".equalsIgnoreCase(timeText) || "Bản nháp".equalsIgnoreCase(timeText);
+                boolean hide = isDraft ? AnhpanPrefs.isDraftPreviewHidden(context) : AnhpanPrefs.isChatTimeHidden(context);
+                timeModule.getClass().getMethod("o0", int.class).invoke(
+                    timeModule, hide ? View.GONE : View.VISIBLE
+                );
+            }
+        } catch (Throwable ignored) { }
+
+        if (convId != null && AnhpanPrefs.isChatPreviewHidden(context, convId)) {
+            try {
+                Object listItem = view.getClass().getMethod("getMListItemModule").invoke(view);
+                if (listItem != null) {
+                    for (java.lang.reflect.Method m : listItem.getClass().getMethods()) {
+                        if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0] == CharSequence.class) {
+                            m.invoke(listItem, "");
+                            break;
+                        }
+                    }
+                }
+            } catch (Throwable ignored) { }
+        }
+
         if (convId != null) {
             try {
                 Object avatar = view.getClass().getMethod("getMAvatar").invoke(view);
                 if (avatar != null) {
                     boolean hideAvatar = AnhpanPrefs.isChatAvatarHidden(context, convId);
                     avatar.getClass().getMethod("o0", int.class).invoke(avatar, hideAvatar ? View.GONE : View.VISIBLE);
+                }
+            } catch (Throwable ignored) { }
+        }
+
+
+        try {
+            Object timeModule = view.getClass().getMethod("getMTime").invoke(view);
+            if (timeModule != null) {
+                String timeText = "";
+                for (Class<?> cls = timeModule.getClass(); cls != null && timeText.isEmpty(); cls = cls.getSuperclass()) {
+                    for (java.lang.reflect.Field f : cls.getDeclaredFields()) {
+                        if (CharSequence.class.isAssignableFrom(f.getType())) {
+                            f.setAccessible(true);
+                            Object v = f.get(timeModule);
+                            if (v instanceof CharSequence && v.toString().length() > 0) {
+                                timeText = v.toString();
+                                break;
+                            }
+                        }
+                    }
+                }
+                boolean isDraft = "Draft".equalsIgnoreCase(timeText) || "Bản nháp".equalsIgnoreCase(timeText);
+                boolean hide = isDraft ? AnhpanPrefs.isDraftPreviewHidden(context) : AnhpanPrefs.isChatTimeHidden(context);
+                timeModule.getClass().getMethod("o0", int.class).invoke(
+                    timeModule, hide ? View.GONE : View.VISIBLE
+                );
+            }
+        } catch (Throwable ignored) { }
+
+        if (convId != null && AnhpanPrefs.isChatPreviewHidden(context, convId)) {
+            try {
+                Object listItem = view.getClass().getMethod("getMListItemModule").invoke(view);
+                if (listItem != null) {
+                    for (java.lang.reflect.Method m : listItem.getClass().getMethods()) {
+                        if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0] == CharSequence.class) {
+                            m.invoke(listItem, "");
+                            break;
+                        }
+                    }
                 }
             } catch (Throwable ignored) { }
         }
@@ -153,7 +230,7 @@ public final class AnhpanUiHelper {
         return false;
     }
 
-    public static String stripEmojis(String input, boolean keepSingleEmoji) {
+    public static String stripPreviewEmojis(String input) {
         if (input == null || input.isEmpty()) return input;
         StringBuilder sb = new StringBuilder();
         int emojiCount = 0;
@@ -169,8 +246,8 @@ public final class AnhpanUiHelper {
             i += charCount;
         }
         String stripped = sb.toString().trim();
-        if (keepSingleEmoji && emojiCount == 1 && stripped.isEmpty()) {
-            return input;
+        if (emojiCount > 0 && stripped.isEmpty()) {
+            return "emoji";
         }
         return stripped;
     }

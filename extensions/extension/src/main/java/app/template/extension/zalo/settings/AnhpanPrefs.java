@@ -22,6 +22,8 @@ public final class AnhpanPrefs {
     public static final String STRIP_NAME_EMOJI = "strip_name_emoji";
     public static final String HIDE_CLOUD_MY_CLOUD = "hide_cloud_my_cloud";
     public static final String HIDE_OFFICIAL_ACCOUNTS = "hide_official_accounts";
+    public static final String HIDE_MUTE_ICON = "hide_mute_icon";
+    public static final String HIDE_CHAT_TIME = "hide_chat_time";
     private static final String LOCKED_CHATS = "locked_chats";
     private static final String NO_HIGHLIGHT_CHATS = "no_highlight_chats";
     private static final String HIDE_PREVIEW_CHATS = "hide_preview_chats";
@@ -47,7 +49,7 @@ public final class AnhpanPrefs {
     }
 
     public static boolean isChatHighlightFeatureEnabled(Context context) {
-        return context != null && of(context).getBoolean(CHAT_HIGHLIGHT_TOGGLE, true);
+        return context != null && of(context).getBoolean(CHAT_HIGHLIGHT_TOGGLE, false);
     }
 
     public static boolean isQuickHeartHidden(Context context) {
@@ -59,7 +61,7 @@ public final class AnhpanPrefs {
     }
 
     public static boolean isReadOnlyEnabled(Context context) {
-        return context != null && of(context).getBoolean(ENABLE_READ_ONLY, true);
+        return context != null && of(context).getBoolean(ENABLE_READ_ONLY, false);
     }
 
     public static boolean isReadOnlyNoHighlight(Context context) {
@@ -100,6 +102,14 @@ public final class AnhpanPrefs {
 
     public static boolean isOfficialAccountsHidden(Context context) {
         return context != null && of(context).getBoolean(HIDE_OFFICIAL_ACCOUNTS, false);
+    }
+
+    public static boolean isMuteIconHidden(Context context) {
+        return context != null && of(context).getBoolean(HIDE_MUTE_ICON, false);
+    }
+
+    public static boolean isChatTimeHidden(Context context) {
+        return context != null && of(context).getBoolean(HIDE_CHAT_TIME, false);
     }
 
     public static boolean isChatPreviewHidden(Context context, String convId) {
