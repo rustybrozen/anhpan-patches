@@ -1,0 +1,103 @@
+package app.template.patches.zalo
+
+import app.morphe.patcher.Fingerprint
+import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
+import app.morphe.patcher.extensions.InstructionExtensions.addInstructionsWithLabels
+import app.morphe.patcher.extensions.InstructionExtensions.getInstruction
+import app.morphe.patcher.fieldAccess
+import app.morphe.patcher.methodCall
+import app.morphe.patcher.patch.ApkFileType
+import app.morphe.patcher.patch.AppTarget
+import app.morphe.patcher.patch.Compatibility
+import app.morphe.patcher.patch.bytecodePatch
+import app.morphe.patcher.util.smali.ExternalLabel
+import com.android.tools.smali.dexlib2.AccessFlags
+import com.android.tools.smali.dexlib2.Opcode
+import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
+import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
+import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+import com.android.tools.smali.dexlib2.iface.reference.FieldReference
+
+private const val ANHPAN_SETTINGS = "Lapp/template/extension/zalo/settings/AnhpanSettings;"
+
+internal object ZaloSettingsFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/settings/SettingV2View;",
+    returnType = "Landroid/view/View;",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    parameters = listOf("Landroid/view/LayoutInflater;", "Landroid/widget/LinearLayout;", "Landroid/os/Bundle;"),
+    filters = listOf(
+        fieldAccess(opcode = Opcode.SGET, name = "setting_v2_view", type = "I"),
+        methodCall(definingClass = "Landroid/view/LayoutInflater;", name = "inflate"),
+        fieldAccess(opcode = Opcode.SGET, name = "itemPrivacy", type = "I"),
+    ),
+)
+
+internal object TabMsgUnreadHighlightFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/moduleview/message/TabMsgCommonItemModuleView;",
+    name = "Z",
+    returnType = "Z",
+    accessFlags = listOf(AccessFlags.PUBLIC),
+    parameters = listOf("Lpup;", "I"),
+)
+
+@Suppress("unused")
+val anhpanSettingsPatch = bytecodePatch(
+    name = "Anhpan's settings",
+    description = "Adds Anhpan's settings entry and message tweaks to Zalo.",
+    default = true,
+) {
+    compatibleWith(Compatibility(
+        name = "Zalo",
+        packageName = "com.zing.zalo",
+        apkFileType = ApkFileType.APK,
+        appIconColor = 0x0068FF,
+        targets = listOf(
+            AppTarget(version = "26.11.01"),
+            AppTarget(version = null, isExperimental = true),
+        ),
+    ))
+
+    extendWith("extensions/extension.mpe")
+
+    execute {
+        check(ZaloSettingsFingerprint.matchAll(1..1).size == 1)
+        val settings = ZaloSettingsFingerprint.method
+        val callTarget = "$ANHPAN_SETTINGS->attach(Landroid/view/View;Landroid/view/View;)V"
+        if (settings.implementation!!.instructions.none {
+            (it as? ReferenceInstruction)?.reference?.toString() == callTarget
+        }) {
+            val privacyIndex = settings.implementation!!.instructions.indexOfFirst {
+                it.opcode == Opcode.SGET &&
+                    ((it as? ReferenceInstruction)?.reference as? FieldReference)?.name == "itemPrivacy"
+            }
+            check(privacyIndex >= 0)
+            val lookup = settings.getInstruction<FiveRegisterInstruction>(privacyIndex + 1)
+            check(lookup.opcode == Opcode.INVOKE_STATIC && lookup.registerCount == 2)
+            val privacy = settings.getInstruction<OneRegisterInstruction>(privacyIndex + 2)
+            check(privacy.opcode == Opcode.MOVE_RESULT_OBJECT)
+            check(settings.getInstruction<OneRegisterInstruction>(privacyIndex + 3).opcode == Opcode.CHECK_CAST)
+            val branch = settings.getInstruction<OneRegisterInstruction>(privacyIndex + 4)
+            check(branch.opcode == Opcode.IF_EQZ && branch.registerA == privacy.registerA)
+
+            settings.addInstructions(
+                privacyIndex + 5,
+                "invoke-static {v${lookup.registerC}, v${privacy.registerA}}, $callTarget",
+            )
+        }
+
+        check(TabMsgUnreadHighlightFingerprint.matchAll(1..1).size == 1)
+        val unreadMethod = TabMsgUnreadHighlightFingerprint.method
+        val firstInstruction = unreadMethod.getInstruction<OneRegisterInstruction>(0)
+        unreadMethod.addInstructionsWithLabels(
+            0,
+            """
+                invoke-static {p0}, $ANHPAN_SETTINGS->shouldDisableUnreadHighlight(Landroid/view/View;)Z
+                move-result v0
+                if-eqz v0, :anhpan_original_unread
+                const/4 v0, 0x0
+                return v0
+            """.trimIndent(),
+            ExternalLabel("anhpan_original_unread", firstInstruction),
+        )
+    }
+}
