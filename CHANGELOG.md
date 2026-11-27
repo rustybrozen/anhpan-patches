@@ -1,3 +1,9 @@
+## 1.0.0-dev.1 (2026-11-27)
+
+### ✨ New Features
+
+* Anhpan settings for Zalo ([777f7e9](https://github.com/rustybrozen/anhpan-patches/commit/777f7e99be899d34811839fb4372a6a425f8be3a))
+
 ## 1.0.0 (2026-11-25)
 
 ### ✨ New Features
