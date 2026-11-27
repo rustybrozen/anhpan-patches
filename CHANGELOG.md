@@ -1,3 +1,9 @@
+## [1.2.0-dev.4](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.3...v1.2.0-dev.4) (2026-11-27)
+
+### ✨ New Features
+
+* add tag count badge and saved tags preview window ([7ba0bef](https://github.com/rustybrozen/anhpan-patches/commit/7ba0beff47032a74ffec39bbe14b09a77ec22e83))
+
 ## [1.2.0-dev.3](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.2...v1.2.0-dev.3) (2026-11-27)
 
 ### 🐛 Bug Fixes
