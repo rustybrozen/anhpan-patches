@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T04:28:07",
-  "description": "## [1.1.0-dev.3](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.2...v1.1.0-dev.3) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* use move-object/from16 for high parameter registers ([e2dcfff](https://github.com/rustybrozen/anhpan-patches/commit/e2dcfff324036525c3269a48731cf32b977dcb07))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.3/patches-1.1.0-dev.3.mpp",
+  "created_at": "2026-11-27T04:36:47",
+  "description": "## [1.1.0-dev.4](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.3...v1.1.0-dev.4) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* avoid register clobbering in context menu hook ([1445ad9](https://github.com/rustybrozen/anhpan-patches/commit/1445ad93e50df84bf0dccd552b8068567da956f2))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.4/patches-1.1.0-dev.4.mpp",
   "signature_download_url": "",
-  "version": "1.1.0-dev.3"
+  "version": "1.1.0-dev.4"
 }

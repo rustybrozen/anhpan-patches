@@ -1,3 +1,9 @@
+## [1.1.0-dev.4](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.3...v1.1.0-dev.4) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* avoid register clobbering in context menu hook ([1445ad9](https://github.com/rustybrozen/anhpan-patches/commit/1445ad93e50df84bf0dccd552b8068567da956f2))
+
 ## [1.1.0-dev.3](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.2...v1.1.0-dev.3) (2026-11-27)
 
 ### 🐛 Bug Fixes
