@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T04:41:45",
-  "description": "## [1.1.0-dev.5](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.4...v1.1.0-dev.5) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* use declared reflection and logging in AnhpanChatLock ([81f230d](https://github.com/rustybrozen/anhpan-patches/commit/81f230d4a1813dbfec1664516f7c5c7ea470332b))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.5/patches-1.1.0-dev.5.mpp",
+  "created_at": "2026-11-27T04:46:43",
+  "description": "## [1.1.0-dev.6](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.5...v1.1.0-dev.6) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* capture conversation id at W6 entry before p1 reuse ([c7d1ada](https://github.com/rustybrozen/anhpan-patches/commit/c7d1ada6bdcde03bc41615d6cf77bc28b0c74073))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.6/patches-1.1.0-dev.6.mpp",
   "signature_download_url": "",
-  "version": "1.1.0-dev.5"
+  "version": "1.1.0-dev.6"
 }

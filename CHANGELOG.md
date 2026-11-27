@@ -1,3 +1,9 @@
+## [1.1.0-dev.6](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.5...v1.1.0-dev.6) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* capture conversation id at W6 entry before p1 reuse ([c7d1ada](https://github.com/rustybrozen/anhpan-patches/commit/c7d1ada6bdcde03bc41615d6cf77bc28b0c74073))
+
 ## [1.1.0-dev.5](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.4...v1.1.0-dev.5) (2026-11-27)
 
 ### 🐛 Bug Fixes
