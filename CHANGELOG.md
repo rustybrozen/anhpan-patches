@@ -1,3 +1,9 @@
+## [1.2.0-dev.9](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.8...v1.2.0-dev.9) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* trigger dev release with AnhpanDebug logs ([44c5a60](https://github.com/rustybrozen/anhpan-patches/commit/44c5a6096caa3b61e465c961bfc3a697eeee2f90))
+
 ## [1.2.0-dev.8](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.7...v1.2.0-dev.8) (2026-11-27)
 
 ### 🐛 Bug Fixes
