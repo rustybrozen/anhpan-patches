@@ -161,7 +161,11 @@ val anhpanSettingsPatch = bytecodePatch(
         val inputBarBase = inputBarInit.implementation!!.registerCount - 6
         inputBarInit.addInstructions(
             inputBarReturn,
-            "invoke-static {v$inputBarBase, v${inputBarBase + 2}}, $ANHPAN_CHAT_LOCK->applyInputBar(Landroid/view/View;Ljava/lang/String;)V",
+            """
+                move-object/from16 v0, v$inputBarBase
+                move-object/from16 v1, v${inputBarBase + 2}
+                invoke-static {v0, v1}, $ANHPAN_CHAT_LOCK->applyInputBar(Landroid/view/View;Ljava/lang/String;)V
+            """.trimIndent(),
         )
 
         check(ReactionPickerInitFingerprint.matchAll(1..1).size == 1)
@@ -171,7 +175,11 @@ val anhpanSettingsPatch = bytecodePatch(
         val reactionBase = reactionInit.implementation!!.registerCount - 6
         reactionInit.addInstructions(
             reactionReturn,
-            "invoke-static {v$reactionBase, v${reactionBase + 3}}, $ANHPAN_CHAT_LOCK->applyReactionPicker(Landroid/view/View;Ljava/lang/String;)V",
+            """
+                move-object/from16 v0, v$reactionBase
+                move-object/from16 v1, v${reactionBase + 3}
+                invoke-static {v0, v1}, $ANHPAN_CHAT_LOCK->applyReactionPicker(Landroid/view/View;Ljava/lang/String;)V
+            """.trimIndent(),
         )
     }
 }
