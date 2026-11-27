@@ -91,17 +91,21 @@ public final class AnhpanChatLock {
             Field hField = findField(ej1.getClass(), "h");
             Object original = hField.get(ej1);
             if (original == null) return;
-            Class<?> listenerType = hField.getType();
-            if (!listenerType.isInterface()) return;
+            Class<?>[] interfaces = original.getClass().getInterfaces();
+            if (interfaces.length == 0) {
+                Log.e(TAG, "original listener has no interfaces: " + original.getClass().getName());
+                return;
+            }
 
             Object proxy = Proxy.newProxyInstance(
-                listenerType.getClassLoader(),
-                new Class<?>[] { listenerType },
+                original.getClass().getClassLoader(),
+                interfaces,
                 (p, method, args) -> {
                     if (args != null && args.length > 0 && args[0] != null) {
                         try {
-                            Method getId = args[0].getClass().getMethod("getId");
-                            Object idVal = getId.invoke(args[0]);
+                            Object idVal = (args[0] instanceof Integer)
+                                ? args[0]
+                                : findMethod(args[0].getClass(), "getId").invoke(args[0]);
                             if (idVal instanceof Integer && ((Integer) idVal) == MENU_ITEM_ID) {
                                 String convId = pendingConvId;
                                 boolean locked = AnhpanPrefs.toggleChatLock(context, convId);
@@ -111,17 +115,13 @@ public final class AnhpanChatLock {
                                     Toast.LENGTH_SHORT
                                 ).show();
                                 try {
-                                    Method close = menuView.getClass().getMethod("O6", menuView.getClass().getSuperclass(), boolean.class);
-                                    close.invoke(null, menuView, false);
-                                } catch (Throwable ignored) {
-                                    try {
-                                        Method d7 = menuView.getClass().getMethod("d7");
-                                        d7.invoke(menuView);
-                                    } catch (Throwable ignored2) { }
-                                }
+                                    findMethod(menuView.getClass(), "d7").invoke(menuView);
+                                } catch (Throwable ignored) { }
                                 return null;
                             }
-                        } catch (Throwable ignored) { }
+                        } catch (Throwable t) {
+                            Log.e(TAG, "proxy click error", t);
+                        }
                     }
                     return method.invoke(original, args);
                 }
