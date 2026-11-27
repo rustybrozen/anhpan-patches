@@ -87,7 +87,7 @@ val anhpanSettingsPatch = bytecodePatch(
 
         check(TabMsgUnreadHighlightFingerprint.matchAll(1..1).size == 1)
         val unreadMethod = TabMsgUnreadHighlightFingerprint.method
-        val firstInstruction = unreadMethod.getInstruction<OneRegisterInstruction>(0)
+        val firstInstruction = unreadMethod.getInstruction(0)
         unreadMethod.addInstructionsWithLabels(
             0,
             """
