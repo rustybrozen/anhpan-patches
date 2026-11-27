@@ -17,11 +17,11 @@ Click the button below, or manually add this repo url to Morphe Manager: https:/
 ## Patches list
 
 <!-- PATCHES_START -->
-> **[v1.2.0-dev.11](https://github.com/rustybrozen/anhpan-patches/releases/tag/v1.2.0-dev.11)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`dev`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**5 patches** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
+> **[v1.2.0](https://github.com/rustybrozen/anhpan-patches/releases/tag/v1.2.0)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**4 patches** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
 
 | # | App | Patches | Version | Package |
 |---|---|---|---|---|
-| 1 | [**Zalo**](PATCHES.md#zalo-comzingzalo) | 5 | `26.11.01` | [`com.zing.zalo`](https://play.google.com/store/apps/details?id=com.zing.zalo) |
+| 1 | [**Zalo**](PATCHES.md#zalo-comzingzalo) | 4 | `26.11.01` | [`com.zing.zalo`](https://play.google.com/store/apps/details?id=com.zing.zalo) |
 <!-- PATCHES_END -->
 
 ### Building locally
