@@ -24,6 +24,9 @@ public final class AnhpanChatLock {
     private static final String TAG = "AnhpanChatLock";
     public static final int MENU_ITEM_ID = 0x414E4850;
     public static final int HIGHLIGHT_ITEM_ID = 0x414E4851;
+    public static final int PREVIEW_ITEM_ID = 0x414E4852;
+    public static final int AVATAR_ITEM_ID = 0x414E4853;
+    public static final int RENAME_ITEM_ID = 0x414E4854;
     private static String pendingConvId;
     private static boolean activeConvLocked;
     private static int pendingActionResId;
@@ -105,6 +108,11 @@ public final class AnhpanChatLock {
                 Object hlItem = ctor.newInstance(HIGHLIGHT_ITEM_ID, null, hlTitle, !overridden, normalType, 0);
                 list.add(hlItem);
             }
+            String previewTitle = AnhpanPrefs.isChatPreviewHidden(context, convId) ? "Show preview" : "Hide preview";
+            list.add(ctor.newInstance(PREVIEW_ITEM_ID, null, previewTitle, true, normalType, 0));
+            String avatarTitle = AnhpanPrefs.isChatAvatarHidden(context, convId) ? "Show avatar" : "Hide avatar";
+            list.add(ctor.newInstance(AVATAR_ITEM_ID, null, avatarTitle, true, normalType, 0));
+            list.add(ctor.newInstance(RENAME_ITEM_ID, null, "Rename (Client)", true, normalType, 0));
         } catch (Throwable t) {
             Log.e(TAG, "addLockMenuItem failed", t);
         }

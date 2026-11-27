@@ -165,6 +165,53 @@ public final class AnhpanSettings {
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.REMOVE_CHAT_BUBBLE_BORDER, checked).apply()
         );
 
+        ZaloUi.addGroup(list, context, "Chat List", darkMode);
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide My Cloud (Cloud cua toi)",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.HIDE_CLOUD_MY_CLOUD, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_CLOUD_MY_CLOUD, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide Official Accounts",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.HIDE_OFFICIAL_ACCOUNTS, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_OFFICIAL_ACCOUNTS, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide draft preview",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.HIDE_DRAFT_PREVIEW, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_DRAFT_PREVIEW, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Remove emoji in preview",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.STRIP_PREVIEW_EMOJI, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.STRIP_PREVIEW_EMOJI, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Remove emoji in name (keep single)",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.STRIP_NAME_EMOJI, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.STRIP_NAME_EMOJI, checked).apply()
+        );
+
         page.show();
     }
 }

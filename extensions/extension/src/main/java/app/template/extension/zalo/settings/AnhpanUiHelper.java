@@ -69,4 +69,82 @@ public final class AnhpanUiHelper {
             }
         }
     }
+
+    public static void onBindNormalMsg(View view, Object pupVar) {
+        if (view == null || pupVar == null) return;
+        android.content.Context context = view.getContext();
+        String convId = null;
+        try {
+            java.lang.reflect.Method eMethod = pupVar.getClass().getDeclaredMethod("e");
+            eMethod.setAccessible(true);
+            convId = (String) eMethod.invoke(pupVar);
+        } catch (Throwable ignored) { }
+
+        boolean hideCloud = AnhpanPrefs.isCloudMyCloudHidden(context) && isMyCloud(convId, pupVar);
+        boolean hideOa = AnhpanPrefs.isOfficialAccountsHidden(context) && isOfficialAccount(pupVar);
+        if (hideCloud || hideOa) {
+            view.setVisibility(View.GONE);
+            android.view.ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null) {
+                lp.height = 0;
+                view.setLayoutParams(lp);
+            }
+            return;
+        } else if (view.getVisibility() == View.GONE) {
+            view.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private static boolean isMyCloud(String convId, Object pupVar) {
+        if (convId != null && (convId.contains("cloud") || convId.equals("0"))) return true;
+        try {
+            java.lang.reflect.Field cField = pupVar.getClass().getDeclaredField("c");
+            cField.setAccessible(true);
+            Object profile = cField.get(pupVar);
+            if (profile != null) {
+                String s = profile.toString();
+                return s.contains("Cloud của tôi") || s.contains("My Cloud");
+            }
+        } catch (Throwable ignored) { }
+        return false;
+    }
+
+    private static boolean isOfficialAccount(Object pupVar) {
+        try {
+            java.lang.reflect.Method gMethod = pupVar.getClass().getDeclaredMethod("g");
+            gMethod.setAccessible(true);
+            Object res = gMethod.invoke(pupVar);
+            return Boolean.TRUE.equals(res);
+        } catch (Throwable ignored) { }
+        return false;
+    }
+
+    public static String stripEmojis(String input, boolean keepSingleEmoji) {
+        if (input == null || input.isEmpty()) return input;
+        StringBuilder sb = new StringBuilder();
+        int emojiCount = 0;
+        int i = 0;
+        while (i < input.length()) {
+            int cp = input.codePointAt(i);
+            int charCount = Character.charCount(cp);
+            if (isEmojiCodePoint(cp)) {
+                emojiCount++;
+            } else {
+                sb.appendCodePoint(cp);
+            }
+            i += charCount;
+        }
+        String stripped = sb.toString().trim();
+        if (keepSingleEmoji && emojiCount == 1 && stripped.isEmpty()) {
+            return input;
+        }
+        return stripped;
+    }
+
+    private static boolean isEmojiCodePoint(int cp) {
+        return (cp >= 0x1F300 && cp <= 0x1FAFF)
+            || (cp >= 0x2600 && cp <= 0x27BF)
+            || (cp >= 0xFE00 && cp <= 0xFE0F)
+            || cp == 0x200D;
+    }
 }
