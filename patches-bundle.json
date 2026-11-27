@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T03:50:08",
-  "description": "## 1.0.0 (2026-11-27)\n\n### ✨ New Features\n\n* Anhpan settings for Zalo ([777f7e9](https://github.com/rustybrozen/anhpan-patches/commit/777f7e99be899d34811839fb4372a6a425f8be3a))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.0.0/patches-1.0.0.mpp",
+  "created_at": "2026-11-27T04:10:53",
+  "description": "## [1.1.0-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.0.0...v1.1.0-dev.1) (2026-11-27)\n\n### ✨ New Features\n\n* add per-chat disable option and pre-release on dev ([01e99b6](https://github.com/rustybrozen/anhpan-patches/commit/01e99b6dc7b3d23fd6cc3b5135acf054eec07c06))\n\n### 🐛 Bug Fixes\n\n* use explicit v-registers in chat lock hooks ([93bef99](https://github.com/rustybrozen/anhpan-patches/commit/93bef998034055cd4be557a43bf93bd2a6ada6f0))\n* use untyped getInstruction 0 for unread highlight hook ([72029b1](https://github.com/rustybrozen/anhpan-patches/commit/72029b11e9419dbd39e83d175996496331c989a4))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.1/patches-1.1.0-dev.1.mpp",
   "signature_download_url": "",
-  "version": "1.0.0"
+  "version": "1.1.0-dev.1"
 }
