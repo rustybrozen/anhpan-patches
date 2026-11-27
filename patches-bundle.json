@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T05:33:04",
-  "description": "## [1.1.0-dev.11](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.10...v1.1.0-dev.11) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* crash when opening a chat ([0ad413d](https://github.com/rustybrozen/anhpan-patches/commit/0ad413d0a3e3405d29bb53f00b039554b8a2a081))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.11/patches-1.1.0-dev.11.mpp",
+  "created_at": "2026-11-27T05:45:37",
+  "description": "## [1.1.0-dev.12](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.11...v1.1.0-dev.12) (2026-11-27)\n\n### 🐛 Bug Fixes\n\n* hide group info actions and top bar buttons in Read-only mode add Read-only settings toggle ([a7fc80a](https://github.com/rustybrozen/anhpan-patches/commit/a7fc80a8cc4d17dc5d207b4c7f4160f95690aade))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.1.0-dev.12/patches-1.1.0-dev.12.mpp",
   "signature_download_url": "",
-  "version": "1.1.0-dev.11"
+  "version": "1.1.0-dev.12"
 }

@@ -1,3 +1,9 @@
+## [1.1.0-dev.12](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.11...v1.1.0-dev.12) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* hide group info actions and top bar buttons in Read-only mode add Read-only settings toggle ([a7fc80a](https://github.com/rustybrozen/anhpan-patches/commit/a7fc80a8cc4d17dc5d207b4c7f4160f95690aade))
+
 ## [1.1.0-dev.11](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.10...v1.1.0-dev.11) (2026-11-27)
 
 ### 🐛 Bug Fixes
