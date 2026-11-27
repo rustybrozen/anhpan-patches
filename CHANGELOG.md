@@ -1,3 +1,9 @@
+## [1.1.0-dev.14](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.13...v1.1.0-dev.14) (2026-11-27)
+
+### ✨ New Features
+
+* hide right menu button and disable group title tap in Read-only mode ([94fbc29](https://github.com/rustybrozen/anhpan-patches/commit/94fbc291be87e93719b01d6acc4a612b1aa2c98b))
+
 ## [1.1.0-dev.13](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.12...v1.1.0-dev.13) (2026-11-27)
 
 ### 🐛 Bug Fixes

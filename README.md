@@ -17,7 +17,7 @@ Click the button below, or manually add this repo url to Morphe Manager: https:/
 ## Patches list
 
 <!-- PATCHES_START -->
-> **[v1.1.0-dev.13](https://github.com/rustybrozen/anhpan-patches/releases/tag/v1.1.0-dev.13)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`dev`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**1 patch** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
+> **[v1.1.0-dev.14](https://github.com/rustybrozen/anhpan-patches/releases/tag/v1.1.0-dev.14)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`dev`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**1 patch** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
 
 | # | App | Patches | Version | Package |
 |---|---|---|---|---|
