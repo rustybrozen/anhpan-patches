@@ -1,3 +1,9 @@
+## [1.2.0-dev.11](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.10...v1.2.0-dev.11) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* remove mute icon feature universal ui inspector and hardcode empty read-only label ([5e920c2](https://github.com/rustybrozen/anhpan-patches/commit/5e920c27e46eff0fc02a06003122c55657e8525e))
+
 ## [1.2.0-dev.10](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.9...v1.2.0-dev.10) (2026-11-27)
 
 ### 🐛 Bug Fixes
