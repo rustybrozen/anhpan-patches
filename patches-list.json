@@ -3,58 +3,31 @@
   "version": "1.0.0",
   "patches": [
     {
-      "name": "Example Patch",
-      "description": "Example patch to start with.",
+      "name": "Anhpan's settings",
+      "description": "Adds Anhpan's settings entry and message tweaks to Zalo.",
       "default": true,
       "category": null,
       "compatiblePackages": [
         {
-          "packageName": "com.example.app",
-          "name": "XYZ app",
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
           "description": null,
           "apkFileType": "APK",
-          "appIconColor": "#FF0045",
+          "appIconColor": "#0068FF",
           "signatures": null,
           "formFactor": "MOBILE",
           "targets": [
             {
-              "version": "2.0.0",
+              "version": "26.11.01",
               "versionCodes": null,
               "isExperimental": false,
               "minSdk": null,
               "description": null
             },
             {
-              "version": "1.0.2",
-              "versionCodes": null,
-              "isExperimental": false,
-              "minSdk": null,
-              "description": null
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-    {
-      "name": "YouTube RPC Test Shortcut",
-      "description": "Adds a standalone test Activity shortcut that generates random Listening to Music activity.",
-      "default": true,
-      "category": null,
-      "compatiblePackages": [
-        {
-          "packageName": "com.google.android.youtube",
-          "name": "YouTube",
-          "description": null,
-          "apkFileType": "APK",
-          "appIconColor": "#FF0000",
-          "signatures": null,
-          "formFactor": "MOBILE",
-          "targets": [
-            {
               "version": null,
               "versionCodes": null,
-              "isExperimental": false,
+              "isExperimental": true,
               "minSdk": null,
               "description": null
             }
