@@ -1,3 +1,9 @@
+## [1.2.0-dev.7](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.6...v1.2.0-dev.7) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* add Rename/Preview/Avatar menu handlers My Documents and subtitle hook ([c1edffc](https://github.com/rustybrozen/anhpan-patches/commit/c1edffcc1765511abf1758a39199b254e9ca08b4))
+
 ## [1.2.0-dev.6](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.5...v1.2.0-dev.6) (2026-11-27)
 
 ### ✨ New Features
