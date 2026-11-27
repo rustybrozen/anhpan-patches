@@ -1,3 +1,9 @@
+## [1.2.0-dev.2](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.1...v1.2.0-dev.2) (2026-11-27)
+
+### ✨ New Features
+
+* add visual highlight label parent box and parent picker to UI inspector ([f006621](https://github.com/rustybrozen/anhpan-patches/commit/f006621d5e313f2f52c296230e5826c274038cad))
+
 ## [1.2.0-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0...v1.2.0-dev.1) (2026-11-27)
 
 ### ✨ New Features

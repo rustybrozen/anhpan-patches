@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-27T08:16:29",
-  "description": "## [1.2.0-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0...v1.2.0-dev.1) (2026-11-27)\n\n### ✨ New Features\n\n* add universal UI inspector debug patch ([3aa1cd8](https://github.com/rustybrozen/anhpan-patches/commit/3aa1cd849ff7b886c7710238daff1a989f9d84ea))",
-  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.2.0-dev.1/patches-1.2.0-dev.1.mpp",
+  "created_at": "2026-11-27T08:26:30",
+  "description": "## [1.2.0-dev.2](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.1...v1.2.0-dev.2) (2026-11-27)\n\n### ✨ New Features\n\n* add visual highlight label parent box and parent picker to UI inspector ([f006621](https://github.com/rustybrozen/anhpan-patches/commit/f006621d5e313f2f52c296230e5826c274038cad))",
+  "download_url": "https://github.com/rustybrozen/anhpan-patches/releases/download/v1.2.0-dev.2/patches-1.2.0-dev.2.mpp",
   "signature_download_url": "",
-  "version": "1.2.0-dev.1"
+  "version": "1.2.0-dev.2"
 }
