@@ -1,3 +1,9 @@
+## [1.1.0-dev.11](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.10...v1.1.0-dev.11) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* crash when opening a chat ([0ad413d](https://github.com/rustybrozen/anhpan-patches/commit/0ad413d0a3e3405d29bb53f00b039554b8a2a081))
+
 ## [1.1.0-dev.10](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.9...v1.1.0-dev.10) (2026-11-27)
 
 ### ✨ New Features
