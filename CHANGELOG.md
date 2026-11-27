@@ -1,3 +1,9 @@
+## [1.1.0-dev.10](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.9...v1.1.0-dev.10) (2026-11-27)
+
+### ✨ New Features
+
+* add Read-only mode restrictions and toggles to hide media heart and share buttons ([9a962e5](https://github.com/rustybrozen/anhpan-patches/commit/9a962e5148da44c48586166d73e2a1dd69fbe87c))
+
 ## [1.1.0-dev.9](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.8...v1.1.0-dev.9) (2026-11-27)
 
 ### 🐛 Bug Fixes
