@@ -257,10 +257,8 @@ val anhpanSettingsPatch = bytecodePatch(
 
         check(ChatActionBarBtnFingerprint.matchAll(1..1).size == 1)
         val actionBtn = ChatActionBarBtnFingerprint.method
-        val actionBtnRet = actionBtn.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_VOID }
-        check(actionBtnRet >= 0)
         actionBtn.addInstructions(
-            actionBtnRet,
+            0,
             "invoke-static {p0, p1}, $ANHPAN_CHAT_LOCK->applyActionBarButton(Landroid/view/View;I)V",
         )
 
