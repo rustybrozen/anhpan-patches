@@ -257,10 +257,48 @@ public final class AnhpanChatLock {
                 || name.contains("add")
                 || name.contains("member")
                 || name.contains("invite")
-                || name.contains("user_plus")) {
+                || name.contains("user_plus")
+                || name.contains("list")
+                || name.contains("menu")) {
                 button.setVisibility(View.GONE);
             }
         } catch (Throwable ignored) { }
+        button.post(() -> lockChatActionBarHeader(button));
+    }
+
+    private static void lockChatActionBarHeader(View button) {
+        if (!activeConvLocked || button == null) return;
+        android.view.ViewParent cur = button.getParent();
+        while (cur instanceof View) {
+            View v = (View) cur;
+            if (v.getClass().getName().endsWith("ZdsActionBar")) {
+                disableTitleClicks(v);
+                break;
+            }
+            cur = cur.getParent();
+        }
+    }
+
+    private static void disableTitleClicks(View view) {
+        if (!(view instanceof ViewGroup)) return;
+        ViewGroup vg = (ViewGroup) view;
+        for (int i = 0; i < vg.getChildCount(); i++) {
+            View child = vg.getChildAt(i);
+            if (hasAnyTextView(child) && !(child instanceof android.widget.ImageView)) {
+                blockTouchTree(child);
+            }
+        }
+    }
+
+    private static boolean hasAnyTextView(View view) {
+        if (view instanceof TextView) return true;
+        if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                if (hasAnyTextView(vg.getChildAt(i))) return true;
+            }
+        }
+        return false;
     }
 
     @SuppressWarnings("unchecked")
