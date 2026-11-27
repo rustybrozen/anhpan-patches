@@ -25,6 +25,7 @@ public final class AnhpanChatLock {
     public static final int MENU_ITEM_ID = 0x414E4850;
     private static String pendingConvId;
     private static boolean activeConvLocked;
+    private static int pendingActionResId;
 
     private AnhpanChatLock() { }
 
@@ -73,7 +74,7 @@ public final class AnhpanChatLock {
         if (list == null || menuView == null || convId == null) return;
         try {
             Context context = (Context) findMethod(menuView.getClass(), "O5").invoke(menuView);
-            if (context == null) return;
+            if (context == null || !AnhpanPrefs.isReadOnlyEnabled(context)) return;
             ClassLoader cl = menuView.getClass().getClassLoader();
             Class<?> itemCls = cl.loadClass("l7j");
             Class<?> typeCls = cl.loadClass("o7j");
@@ -98,7 +99,7 @@ public final class AnhpanChatLock {
         if (ej1 == null || menuView == null) return;
         try {
             Context context = (Context) findMethod(menuView.getClass(), "O5").invoke(menuView);
-            if (context == null) return;
+            if (context == null || !AnhpanPrefs.isReadOnlyEnabled(context)) return;
             Field hField = findField(ej1.getClass(), "h");
             Object original = hField.get(ej1);
             if (original == null) return;
@@ -155,7 +156,7 @@ public final class AnhpanChatLock {
             return;
         }
         Context context = inputBar.getContext();
-        activeConvLocked = AnhpanPrefs.isChatLocked(context, convId);
+        activeConvLocked = AnhpanPrefs.isReadOnlyEnabled(context) && AnhpanPrefs.isChatLocked(context, convId);
         if (!activeConvLocked) return;
         if (!(inputBar instanceof ViewGroup)) {
             inputBar.setVisibility(View.GONE);
@@ -239,20 +240,123 @@ public final class AnhpanChatLock {
         return view != null && AnhpanPrefs.isQuickShareHidden(view.getContext());
     }
 
+    public static void captureActionResId(int resId) {
+        pendingActionResId = resId;
+    }
+
+    public static void applyCapturedActionBarButton(View button) {
+        applyActionBarButton(button, pendingActionResId);
+    }
+
     public static void applyActionBarButton(View button, int resId) {
         if (!activeConvLocked || button == null || resId == 0) return;
         try {
             String name = button.getResources().getResourceEntryName(resId).toLowerCase(java.util.Locale.ROOT);
-            if (name.contains("call") || name.contains("video")) {
+            if (name.contains("call")
+                || name.contains("video")
+                || name.contains("add")
+                || name.contains("member")
+                || name.contains("invite")
+                || name.contains("user_plus")) {
                 button.setVisibility(View.GONE);
             }
         } catch (Throwable ignored) { }
     }
 
+    @SuppressWarnings("unchecked")
+    public static void filterHorizontalItems(Object a04Var) {
+        if (!activeConvLocked || a04Var == null) return;
+        try {
+            Field bField = findField(a04Var.getClass(), "b");
+            Object listObj = bField.get(a04Var);
+            if (listObj instanceof java.util.List) {
+                java.util.List list = (java.util.List) listObj;
+                java.util.Iterator it = list.iterator();
+                while (it.hasNext()) {
+                    Object item = it.next();
+                    String title = extractTitle(item);
+                    if (title != null) {
+                        String lower = title.toLowerCase(java.util.Locale.ROOT);
+                        if (lower.contains("add member")
+                            || lower.contains("thêm thành viên")
+                            || lower.contains("thêm bạn")) {
+                            it.remove();
+                        }
+                    }
+                }
+            }
+        } catch (Throwable ignored) { }
+    }
+
+    public static void tagSettingItem(View view, Object a04Var) {
+        if (view == null) return;
+        if (!activeConvLocked || a04Var == null) {
+            view.setTag(null);
+            return;
+        }
+        String title = extractTitle(a04Var);
+        if (title == null) {
+            view.setTag(null);
+            return;
+        }
+        String lower = title.toLowerCase(java.util.Locale.ROOT);
+        boolean hide = lower.contains("members")
+            || lower.contains("thành viên")
+            || lower.contains("group board")
+            || lower.contains("bảng tin")
+            || lower.contains("group link")
+            || lower.contains("link tham gia")
+            || lower.contains("organize")
+            || lower.contains("phân loại")
+            || lower.contains("hide conversation")
+            || lower.contains("ẩn trò chuyện")
+            || lower.contains("report")
+            || lower.contains("báo cáo")
+            || lower.contains("delete conversation")
+            || lower.contains("xóa trò chuyện")
+            || lower.contains("xoá trò chuyện")
+            || lower.contains("leave group")
+            || lower.contains("rời nhóm");
+        view.setTag(hide ? "anhpan-hide" : null);
+    }
+
+    public static void applySettingHideTag(View view) {
+        if (view == null) return;
+        if ("anhpan-hide".equals(view.getTag())) {
+            view.setVisibility(View.GONE);
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null && lp.height != 0) {
+                lp.height = 0;
+                view.setLayoutParams(lp);
+            }
+        } else {
+            view.setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null && lp.height == 0) {
+                lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                view.setLayoutParams(lp);
+            }
+        }
+    }
+
+    private static String extractTitle(Object item) {
+        if (item == null) return null;
+        for (String fieldName : new String[] { "d", "f", "g", "h" }) {
+            try {
+                Field f = findField(item.getClass(), fieldName);
+                Object val = f.get(item);
+                if (val instanceof CharSequence) {
+                    String s = val.toString();
+                    if (!s.isEmpty()) return s;
+                }
+            } catch (Throwable ignored) { }
+        }
+        return null;
+    }
+
     public static void applyChatInfoView(View root) {
         if (!activeConvLocked || root == null) return;
-        Runnable filter = () -> filterChatInfoTree(root);
-        root.post(filter);
+        root.post(() -> filterChatInfoTree(root));
         if (root instanceof ViewGroup) {
             root.getViewTreeObserver().addOnGlobalLayoutListener(() -> filterChatInfoTree(root));
         }
@@ -264,19 +368,15 @@ public final class AnhpanChatLock {
         if (clsName.endsWith("ZdsActionBar")) {
             hideActionBarEditButton(view);
         } else if (clsName.contains("ChatHeaderItemModuleView")) {
-            disableTreeClicks(view);
-        } else if (clsName.contains("SettingHorizontalModuleView")) {
-            hideMatchingHorizontalButtons(view);
-        } else if (clsName.contains("ChatSettingModuleView")) {
-            if (hasBlockedInfoLabel(view)) {
-                view.setVisibility(View.GONE);
-                ViewGroup.LayoutParams lp = view.getLayoutParams();
-                if (lp != null && lp.height != 0) {
-                    lp.height = 0;
-                    view.setLayoutParams(lp);
-                }
-                return;
+            blockTouchTree(view);
+        } else if (clsName.contains("ChatSettingModuleView") && "anhpan-hide".equals(view.getTag())) {
+            view.setVisibility(View.GONE);
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null && lp.height != 0) {
+                lp.height = 0;
+                view.setLayoutParams(lp);
             }
+            return;
         }
         if (view instanceof ViewGroup) {
             ViewGroup vg = (ViewGroup) view;
@@ -288,73 +388,36 @@ public final class AnhpanChatLock {
 
     private static void hideActionBarEditButton(View actionBar) {
         if (!(actionBar instanceof ViewGroup)) return;
-        ViewGroup vg = (ViewGroup) actionBar;
+        int[] barLoc = new int[2];
+        actionBar.getLocationOnScreen(barLoc);
+        int midX = barLoc[0] + actionBar.getWidth() / 2;
+        hideRightSideButtons((ViewGroup) actionBar, midX);
+    }
+
+    private static void hideRightSideButtons(ViewGroup vg, int midX) {
         for (int i = 0; i < vg.getChildCount(); i++) {
             View child = vg.getChildAt(i);
             if (child instanceof ViewGroup) {
-                hideActionBarEditButton(child);
+                hideRightSideButtons((ViewGroup) child, midX);
             } else if (child.isClickable() && !(child instanceof TextView)) {
-                // Keep left back button (x close to 0), hide right edit/rename button
-                if (child.getLeft() > actionBar.getWidth() / 2) {
+                int[] loc = new int[2];
+                child.getLocationOnScreen(loc);
+                if (loc[0] >= midX) {
                     child.setVisibility(View.GONE);
                 }
             }
         }
     }
 
-    private static void disableTreeClicks(View view) {
+    private static void blockTouchTree(View view) {
         view.setClickable(false);
         view.setLongClickable(false);
-        view.setOnClickListener(null);
+        view.setOnTouchListener((v, ev) -> true);
         if (view instanceof ViewGroup) {
             ViewGroup vg = (ViewGroup) view;
             for (int i = 0; i < vg.getChildCount(); i++) {
-                disableTreeClicks(vg.getChildAt(i));
+                blockTouchTree(vg.getChildAt(i));
             }
         }
-    }
-
-    private static void hideMatchingHorizontalButtons(View view) {
-        if (!(view instanceof ViewGroup)) return;
-        ViewGroup vg = (ViewGroup) view;
-        for (int i = 0; i < vg.getChildCount(); i++) {
-            View child = vg.getChildAt(i);
-            if (containsText(child, "add members", "thêm thành viên", "thêm bạn")) {
-                child.setVisibility(View.GONE);
-            } else if (child instanceof ViewGroup) {
-                hideMatchingHorizontalButtons(child);
-            }
-        }
-    }
-
-    private static boolean hasBlockedInfoLabel(View view) {
-        return containsText(
-            view,
-            "group board", "bảng tin nhóm",
-            "group link", "link tham gia nhóm",
-            "organize conversation", "phân loại",
-            "hide conversation", "ẩn trò chuyện",
-            "report", "báo cáo",
-            "delete conversation", "xóa trò chuyện", "xoá trò chuyện",
-            "leave group", "rời nhóm"
-        );
-    }
-
-    private static boolean containsText(View view, String... targets) {
-        if (view instanceof TextView) {
-            CharSequence cs = ((TextView) view).getText();
-            if (cs != null) {
-                String lower = cs.toString().toLowerCase(java.util.Locale.ROOT);
-                for (String t : targets) {
-                    if (lower.contains(t)) return true;
-                }
-            }
-        } else if (view instanceof ViewGroup) {
-            ViewGroup vg = (ViewGroup) view;
-            for (int i = 0; i < vg.getChildCount(); i++) {
-                if (containsText(vg.getChildAt(i), targets)) return true;
-            }
-        }
-        return false;
     }
 }

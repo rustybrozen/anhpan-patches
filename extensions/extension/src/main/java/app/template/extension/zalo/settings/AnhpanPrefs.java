@@ -8,6 +8,7 @@ public final class AnhpanPrefs {
     public static final String DISABLE_UNREAD_HIGHLIGHT = "disable_unread_highlight";
     public static final String HIDE_QUICK_HEART = "hide_quick_heart";
     public static final String HIDE_QUICK_SHARE = "hide_quick_share";
+    public static final String ENABLE_READ_ONLY = "enable_read_only";
     private static final String LOCKED_CHATS = "locked_chats";
 
     private AnhpanPrefs() { }
@@ -26,6 +27,10 @@ public final class AnhpanPrefs {
 
     public static boolean isQuickShareHidden(Context context) {
         return context != null && of(context).getBoolean(HIDE_QUICK_SHARE, false);
+    }
+
+    public static boolean isReadOnlyEnabled(Context context) {
+        return context != null && of(context).getBoolean(ENABLE_READ_ONLY, true);
     }
 
     public static boolean isChatLocked(Context context, String convId) {

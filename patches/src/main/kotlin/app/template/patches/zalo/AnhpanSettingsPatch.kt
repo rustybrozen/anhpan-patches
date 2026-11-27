@@ -95,6 +95,27 @@ internal object ChatInfoViewCreateFingerprint : Fingerprint(
     parameters = listOf("Landroid/view/LayoutInflater;", "Landroid/view/ViewGroup;", "Landroid/os/Bundle;"),
 )
 
+internal object ChatViewActionBarT6Fingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/ChatView;",
+    name = "T6",
+    returnType = "Lcom/zing/zalo/ui/chat/actionbar/ChatViewActionBarButton;",
+    parameters = listOf("Lim4;", "I"),
+)
+
+internal object SettingHorizontalBindFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/moduleview/chatinfo/ChatInfoModuleViews\$SettingHorizontalModuleView;",
+    name = "g",
+    returnType = "V",
+    parameters = listOf("La04;", "I"),
+)
+
+internal object ChatSettingBindFingerprint : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/moduleview/chatinfo/ChatInfoModuleViews\$ChatSettingModuleView;",
+    name = "g",
+    returnType = "V",
+    parameters = listOf("La04;", "I"),
+)
+
 @Suppress("unused")
 val anhpanSettingsPatch = bytecodePatch(
     name = "Anhpan's settings",
@@ -270,6 +291,40 @@ val anhpanSettingsPatch = bytecodePatch(
         infoCreate.addInstructions(
             infoRet,
             "invoke-static {v$infoRetReg}, $ANHPAN_CHAT_LOCK->applyChatInfoView(Landroid/view/View;)V",
+        )
+
+        check(ChatViewActionBarT6Fingerprint.matchAll(1..1).size == 1)
+        val t6Method = ChatViewActionBarT6Fingerprint.method
+        val t6Ret = t6Method.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_OBJECT }
+        check(t6Ret >= 0)
+        val t6RetReg = t6Method.getInstruction<OneRegisterInstruction>(t6Ret).registerA
+        t6Method.addInstructions(
+            t6Ret,
+            "invoke-static {v$t6RetReg}, $ANHPAN_CHAT_LOCK->applyCapturedActionBarButton(Landroid/view/View;)V",
+        )
+        t6Method.addInstructions(
+            0,
+            "invoke-static {p2}, $ANHPAN_CHAT_LOCK->captureActionResId(I)V",
+        )
+
+        check(SettingHorizontalBindFingerprint.matchAll(1..1).size == 1)
+        val hBind = SettingHorizontalBindFingerprint.method
+        hBind.addInstructions(
+            0,
+            "invoke-static {p1}, $ANHPAN_CHAT_LOCK->filterHorizontalItems(Ljava/lang/Object;)V",
+        )
+
+        check(ChatSettingBindFingerprint.matchAll(1..1).size == 1)
+        val sBind = ChatSettingBindFingerprint.method
+        val sBindRet = sBind.implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_VOID }
+        check(sBindRet >= 0)
+        sBind.addInstructions(
+            sBindRet,
+            "invoke-static {p0}, $ANHPAN_CHAT_LOCK->applySettingHideTag(Landroid/view/View;)V",
+        )
+        sBind.addInstructions(
+            0,
+            "invoke-static {p0, p1}, $ANHPAN_CHAT_LOCK->tagSettingItem(Landroid/view/View;Ljava/lang/Object;)V",
         )
     }
 }
