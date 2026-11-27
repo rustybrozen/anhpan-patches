@@ -1,6 +1,6 @@
 # Patches
 
-> Generated from `patches-list.json` — **v1.1.0-dev.17** (`dev`) · **1 patch** across **1 app** · back to [README](README.md)
+> Generated from `patches-list.json` — **v1.1.0** (`main`) · **4 patches** across **1 app** · back to [README](README.md)
 
 ---
 
@@ -10,6 +10,9 @@
 
 | Patch | Details |
 |---|---|
-| **Anhpan's settings** | Adds Anhpan's settings entry and message tweaks to Zalo. |
+| **Anhpan's settings** | Settings entry in Zalo and long-press context menu hook. Required by other Anhpan patches. |
+| **Chat highlight toggle** | Per-conversation highlight toggle via long-press. Requires Anhpan's settings. |
+| **Read-only mode** | Lock individual chats into read-only via long-press. Requires Anhpan's settings. |
+| **UI tweaks** | Hides search bar, QR button and add (+) button on the Messages tab. Requires Anhpan's settings. |
 
 ---
