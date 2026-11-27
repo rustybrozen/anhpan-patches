@@ -58,6 +58,7 @@ public final class AnhpanUiHelper {
         if (chatRow == null || !AnhpanPrefs.isChatBubbleBorderRemoved(chatRow.getContext())) {
             return;
         }
+        android.util.Log.d("AnhpanDebug", "removeChatBubbleBorderIfNeeded view=" + chatRow.getClass().getSimpleName());
         chatRow.setBackground(null);
         if (chatRow instanceof ViewGroup) {
             ViewGroup vg = (ViewGroup) chatRow;
@@ -82,6 +83,7 @@ public final class AnhpanUiHelper {
 
         boolean hideCloud = AnhpanPrefs.isCloudMyCloudHidden(context) && isMyCloud(convId, pupVar);
         boolean hideOa = AnhpanPrefs.isOfficialAccountsHidden(context) && isOfficialAccount(pupVar);
+        android.util.Log.d("AnhpanDebug", "onBindNormalMsg convId=" + convId + " hideCloud=" + hideCloud + " hideOa=" + hideOa);
         if (hideCloud || hideOa) {
             view.setVisibility(View.GONE);
             android.view.ViewGroup.LayoutParams lp = view.getLayoutParams();
