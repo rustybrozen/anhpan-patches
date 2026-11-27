@@ -409,6 +409,13 @@ public final class UiInspector {
             if (view == this || view.getId() == TAG_FAB || view.getVisibility() != View.VISIBLE) {
                 return null;
             }
+            int id = view.getId();
+            if (id == android.R.id.statusBarBackground || id == android.R.id.navigationBarBackground) {
+                return null;
+            }
+            if (view.getWidth() <= 0 || view.getHeight() <= 0) {
+                return null;
+            }
             int[] loc = new int[2];
             view.getLocationOnScreen(loc);
             if (rawX < loc[0] || rawX > loc[0] + view.getWidth()
@@ -424,7 +431,12 @@ public final class UiInspector {
                     }
                 }
             }
-            return view;
+            boolean isFullScreen = view.getWidth() >= root.getWidth() * 0.9f
+                    && view.getHeight() >= root.getHeight() * 0.9f;
+            if (isFullScreen && view != root) {
+                return null;
+            }
+            return view == root ? null : view;
         }
 
         private void showTagDialog(View target, float rawX, float rawY) {
