@@ -1,3 +1,9 @@
+## [1.2.0-dev.12](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.11...v1.2.0-dev.12) (2026-11-27)
+
+### ✨ New Features
+
+* release v1.2.0 chat list filters fullscreen settings and reset ([4dad20d](https://github.com/rustybrozen/anhpan-patches/commit/4dad20da09f5e785c71bf518dc39d138ca60efbc))
+
 ## [1.2.0-dev.11](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.10...v1.2.0-dev.11) (2026-11-27)
 
 ### 🐛 Bug Fixes
