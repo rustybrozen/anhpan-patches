@@ -261,8 +261,14 @@ public final class UiInspector {
         private final ViewGroup root;
         private final Paint borderPaint;
         private final Paint fillPaint;
+        private final Paint parentBorderPaint;
+        private final Paint labelBgPaint;
+        private final Paint labelTextPaint;
         private final Rect highlightRect = new Rect();
+        private final Rect parentRect = new Rect();
         private boolean hasHighlight = false;
+        private boolean hasParentHighlight = false;
+        private String highlightLabel = "";
         private long lastTapTime = 0;
         private float lastTapX = 0;
         private float lastTapY = 0;
@@ -273,26 +279,82 @@ public final class UiInspector {
             this.root = root;
 
             borderPaint = new Paint();
-            borderPaint.setColor(Color.RED);
+            borderPaint.setColor(Color.argb(255, 0, 229, 255));
             borderPaint.setStyle(Paint.Style.STROKE);
             borderPaint.setStrokeWidth(6f);
 
             fillPaint = new Paint();
-            fillPaint.setColor(Color.argb(45, 255, 0, 0));
+            fillPaint.setColor(Color.argb(55, 0, 229, 255));
             fillPaint.setStyle(Paint.Style.FILL);
+
+            parentBorderPaint = new Paint();
+            parentBorderPaint.setColor(Color.argb(180, 255, 214, 0));
+            parentBorderPaint.setStyle(Paint.Style.STROKE);
+            parentBorderPaint.setStrokeWidth(3f);
+
+            labelBgPaint = new Paint();
+            labelBgPaint.setColor(Color.argb(220, 20, 20, 20));
+            labelBgPaint.setStyle(Paint.Style.FILL);
+
+            labelTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            labelTextPaint.setColor(Color.WHITE);
+            labelTextPaint.setTextSize(dp(activity, 11));
         }
 
         void clearHighlight() {
             hasHighlight = false;
+            hasParentHighlight = false;
+            highlightLabel = "";
+            invalidate();
+        }
+
+        void highlightTarget(View target) {
+            int[] loc = new int[2];
+            target.getLocationOnScreen(loc);
+            highlightRect.set(loc[0], loc[1], loc[0] + target.getWidth(), loc[1] + target.getHeight());
+            hasHighlight = true;
+
+            if (target.getParent() instanceof View && target.getParent() != root) {
+                View p = (View) target.getParent();
+                int[] pLoc = new int[2];
+                p.getLocationOnScreen(pLoc);
+                parentRect.set(pLoc[0], pLoc[1], pLoc[0] + p.getWidth(), pLoc[1] + p.getHeight());
+                hasParentHighlight = true;
+            } else {
+                hasParentHighlight = false;
+            }
+
+            String shortId = resolveShortId(target);
+            highlightLabel = target.getClass().getSimpleName()
+                    + " (" + target.getWidth() + "x" + target.getHeight() + ")"
+                    + (shortId.isEmpty() ? "" : " #" + shortId);
             invalidate();
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
+            if (hasParentHighlight) {
+                canvas.drawRect(parentRect, parentBorderPaint);
+            }
             if (hasHighlight) {
                 canvas.drawRect(highlightRect, fillPaint);
                 canvas.drawRect(highlightRect, borderPaint);
+
+                if (!highlightLabel.isEmpty()) {
+                    float pad = dp(activity, 6);
+                    float textW = labelTextPaint.measureText(highlightLabel);
+                    float textH = labelTextPaint.getTextSize();
+                    float boxW = textW + pad * 2;
+                    float boxH = textH + pad * 1.5f;
+                    float left = Math.max(8f, Math.min(getWidth() - boxW - 8f, highlightRect.left));
+                    float top = highlightRect.top - boxH - 6f;
+                    if (top < 8f) {
+                        top = Math.min(getHeight() - boxH - 8f, highlightRect.bottom + 6f);
+                    }
+                    canvas.drawRect(left, top, left + boxW, top + boxH, labelBgPaint);
+                    canvas.drawText(highlightLabel, left + pad, top + textH + pad * 0.4f, labelTextPaint);
+                }
             }
         }
 
@@ -321,11 +383,7 @@ public final class UiInspector {
 
             View target = findDeepestView(root, rawX, rawY);
             if (target != null) {
-                int[] loc = new int[2];
-                target.getLocationOnScreen(loc);
-                highlightRect.set(loc[0], loc[1], loc[0] + target.getWidth(), loc[1] + target.getHeight());
-                hasHighlight = true;
-                invalidate();
+                highlightTarget(target);
                 showTagDialog(target, rawX, rawY);
             }
             return true;
@@ -398,7 +456,7 @@ public final class UiInspector {
             input.setHint("Custom name (e.g. btn_group_settings)");
             container.addView(input);
 
-            new AlertDialog.Builder(activity)
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                     .setTitle("Tag UI Element")
                     .setView(container)
                     .setPositiveButton("Save", (d, w) -> {
@@ -417,9 +475,28 @@ public final class UiInspector {
                             Toast.makeText(activity, "Save failed", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .setNeutralButton("Click Through", (d, w) -> passThroughClick(rawX, rawY))
-                    .setNegativeButton("Cancel", null)
-                    .show();
+                    .setNegativeButton("Click Through", (d, w) -> passThroughClick(rawX, rawY));
+
+            if (target.getParent() instanceof View && target.getParent() != root) {
+                View parentView = (View) target.getParent();
+                builder.setNeutralButton("Parent", (d, w) -> {
+                    highlightTarget(parentView);
+                    showTagDialog(parentView, rawX, rawY);
+                });
+            }
+            builder.show();
+        }
+
+        private String resolveShortId(View v) {
+            int id = v.getId();
+            if (id == View.NO_ID) {
+                return "";
+            }
+            try {
+                return v.getResources().getResourceEntryName(id);
+            } catch (Exception e) {
+                return "0x" + Integer.toHexString(id);
+            }
         }
 
         private String resolveResourceName(View v) {
