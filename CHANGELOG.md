@@ -1,3 +1,9 @@
+## [1.1.0-dev.7](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.6...v1.1.0-dev.7) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* proxy original listener interfaces instead of Object field type ([33190f0](https://github.com/rustybrozen/anhpan-patches/commit/33190f06d8e3e59aaf597dca06b86e45c10f34da))
+
 ## [1.1.0-dev.6](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.5...v1.1.0-dev.6) (2026-11-27)
 
 ### 🐛 Bug Fixes
