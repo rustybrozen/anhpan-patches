@@ -1,3 +1,9 @@
+## [1.2.0-dev.10](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.9...v1.2.0-dev.10) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* fix avatar recycling flicker client rename across all chats and ChatRowText hook ([e5ec381](https://github.com/rustybrozen/anhpan-patches/commit/e5ec38195b628d6cf2b6a02f8339de338e17e09b))
+
 ## [1.2.0-dev.9](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.8...v1.2.0-dev.9) (2026-11-27)
 
 ### 🐛 Bug Fixes
