@@ -1,3 +1,76 @@
+## [1.2.0-dev.11](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.10...v1.2.0-dev.11) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* remove mute icon feature universal ui inspector and hardcode empty read-only label ([5e920c2](https://github.com/rustybrozen/anhpan-patches/commit/5e920c27e46eff0fc02a06003122c55657e8525e))
+
+## [1.2.0-dev.10](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.9...v1.2.0-dev.10) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* fix avatar recycling flicker client rename across all chats and ChatRowText hook ([e5ec381](https://github.com/rustybrozen/anhpan-patches/commit/e5ec38195b628d6cf2b6a02f8339de338e17e09b))
+
+## [1.2.0-dev.9](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.8...v1.2.0-dev.9) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* trigger dev release with AnhpanDebug logs ([44c5a60](https://github.com/rustybrozen/anhpan-patches/commit/44c5a6096caa3b61e465c961bfc3a697eeee2f90))
+
+## [1.2.0-dev.8](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.7...v1.2.0-dev.8) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* hook ChatRowText.j1 for bubble border removal ([44a9467](https://github.com/rustybrozen/anhpan-patches/commit/44a94671db340ee6026899baf61495c6f71288a0))
+
+## [1.2.0-dev.7](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.6...v1.2.0-dev.7) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* add Rename/Preview/Avatar menu handlers My Documents and subtitle hook ([c1edffc](https://github.com/rustybrozen/anhpan-patches/commit/c1edffcc1765511abf1758a39199b254e9ca08b4))
+
+## [1.2.0-dev.6](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.5...v1.2.0-dev.6) (2026-11-27)
+
+### ✨ New Features
+
+* add chat list filters per-chat preview/avatar/rename options ([6a539de](https://github.com/rustybrozen/anhpan-patches/commit/6a539dec725624c4135445a4dee4511469d7a06e))
+
+## [1.2.0-dev.5](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.4...v1.2.0-dev.5) (2026-11-27)
+
+### ✨ New Features
+
+* add read-only label subtitle bubble border patches and fullscreen settings ([0bcbad1](https://github.com/rustybrozen/anhpan-patches/commit/0bcbad102b8bc03096f5d922e12654d65fa31e28))
+
+## [1.2.0-dev.4](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.3...v1.2.0-dev.4) (2026-11-27)
+
+### ✨ New Features
+
+* add tag count badge and saved tags preview window ([7ba0bef](https://github.com/rustybrozen/anhpan-patches/commit/7ba0beff47032a74ffec39bbe14b09a77ec22e83))
+* publish universal ui inspector dev build ([b3d8486](https://github.com/rustybrozen/anhpan-patches/commit/b3d848649f92f548a9a9028341977f72730022ea))
+
+## [1.2.0-dev.4](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.3...v1.2.0-dev.4) (2026-11-27)
+
+### ✨ New Features
+
+* add tag count badge and saved tags preview window ([7ba0bef](https://github.com/rustybrozen/anhpan-patches/commit/7ba0beff47032a74ffec39bbe14b09a77ec22e83))
+
+## [1.2.0-dev.3](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.2...v1.2.0-dev.3) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* skip fullscreen background views when hit-testing UI elements ([2e883b9](https://github.com/rustybrozen/anhpan-patches/commit/2e883b911162b96fc870b3d1aa712d28f342124f))
+
+## [1.2.0-dev.2](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0-dev.1...v1.2.0-dev.2) (2026-11-27)
+
+### ✨ New Features
+
+* add visual highlight label parent box and parent picker to UI inspector ([f006621](https://github.com/rustybrozen/anhpan-patches/commit/f006621d5e313f2f52c296230e5826c274038cad))
+
+## [1.2.0-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0...v1.2.0-dev.1) (2026-11-27)
+
+### ✨ New Features
+
+* add universal UI inspector debug patch ([3aa1cd8](https://github.com/rustybrozen/anhpan-patches/commit/3aa1cd849ff7b886c7710238daff1a989f9d84ea))
+
 ## [1.1.0](https://github.com/rustybrozen/anhpan-patches/compare/v1.0.0...v1.1.0) (2026-11-27)
 
 ### ✨ New Features

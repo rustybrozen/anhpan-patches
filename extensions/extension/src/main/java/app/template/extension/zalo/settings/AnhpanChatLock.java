@@ -24,6 +24,9 @@ public final class AnhpanChatLock {
     private static final String TAG = "AnhpanChatLock";
     public static final int MENU_ITEM_ID = 0x414E4850;
     public static final int HIGHLIGHT_ITEM_ID = 0x414E4851;
+    public static final int PREVIEW_ITEM_ID = 0x414E4852;
+    public static final int AVATAR_ITEM_ID = 0x414E4853;
+    public static final int RENAME_ITEM_ID = 0x414E4854;
     private static String pendingConvId;
     private static boolean activeConvLocked;
     private static int pendingActionResId;
@@ -105,6 +108,11 @@ public final class AnhpanChatLock {
                 Object hlItem = ctor.newInstance(HIGHLIGHT_ITEM_ID, null, hlTitle, !overridden, normalType, 0);
                 list.add(hlItem);
             }
+            String previewTitle = AnhpanPrefs.isChatPreviewHidden(context, convId) ? "Show preview" : "Hide preview";
+            list.add(ctor.newInstance(PREVIEW_ITEM_ID, null, previewTitle, true, normalType, 0));
+            String avatarTitle = AnhpanPrefs.isChatAvatarHidden(context, convId) ? "Show avatar" : "Hide avatar";
+            list.add(ctor.newInstance(AVATAR_ITEM_ID, null, avatarTitle, true, normalType, 0));
+            list.add(ctor.newInstance(RENAME_ITEM_ID, null, "Rename (Client)", true, normalType, 0));
         } catch (Throwable t) {
             Log.e(TAG, "addLockMenuItem failed", t);
         }
@@ -149,6 +157,48 @@ public final class AnhpanChatLock {
                                     try {
                                         findMethod(menuView.getClass(), "d7").invoke(menuView);
                                     } catch (Throwable ignored) { }
+                                    return null;
+                                }
+                                if (idVal instanceof Integer && ((Integer) idVal) == PREVIEW_ITEM_ID) {
+                                    String convId = pendingConvId;
+                                    boolean hidden = AnhpanPrefs.toggleChatPreviewHidden(context, convId);
+                                    Toast.makeText(context, hidden ? "Preview hidden" : "Preview shown", Toast.LENGTH_SHORT).show();
+                                    try { findMethod(menuView.getClass(), "d7").invoke(menuView); } catch (Throwable ignored) { }
+                                    return null;
+                                }
+                                if (idVal instanceof Integer && ((Integer) idVal) == AVATAR_ITEM_ID) {
+                                    String convId = pendingConvId;
+                                    boolean hidden = AnhpanPrefs.toggleChatAvatarHidden(context, convId);
+                                    Toast.makeText(context, hidden ? "Avatar hidden" : "Avatar shown", Toast.LENGTH_SHORT).show();
+                                    try { findMethod(menuView.getClass(), "d7").invoke(menuView); } catch (Throwable ignored) { }
+                                    return null;
+                                }
+                                if (idVal instanceof Integer && ((Integer) idVal) == RENAME_ITEM_ID) {
+                                    String convId = pendingConvId;
+                                    Log.d("AnhpanDebug", "RENAME_ITEM_ID clicked convId=" + convId + " ctx=" + context.getClass().getName());
+                                    try { findMethod(menuView.getClass(), "d7").invoke(menuView); } catch (Throwable ignored) { }
+                                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                                        try {
+                                            android.app.AlertDialog.Builder b = new android.app.AlertDialog.Builder(
+                                                context, android.R.style.Theme_DeviceDefault_Dialog_Alert
+                                            );
+                                            b.setTitle("Rename (Client)");
+                                            final android.widget.EditText input = new android.widget.EditText(context);
+                                            String cur = AnhpanPrefs.getCustomName(context, convId);
+                                            if (cur != null) input.setText(cur);
+                                            input.setHint("Leave empty to reset");
+                                            b.setView(input);
+                                            b.setPositiveButton("Save", (d, w) -> {
+                                                AnhpanPrefs.setCustomName(context, convId, input.getText().toString());
+                                                Toast.makeText(context, "Saved: " + input.getText().toString(), Toast.LENGTH_SHORT).show();
+                                            });
+                                            b.setNegativeButton("Cancel", null);
+                                            b.show();
+                                        } catch (Throwable t) {
+                                            Log.e("AnhpanDebug", "Rename dialog failed", t);
+                                            Toast.makeText(context, "Rename error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    }, 150);
                                     return null;
                                 }
                                 if (idVal instanceof Integer && ((Integer) idVal) == HIGHLIGHT_ITEM_ID) {

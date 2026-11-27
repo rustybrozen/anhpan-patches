@@ -4,7 +4,7 @@ Personal Morphe Patches for Zalo.
 
 ## About
 
-Custom patches for Zalo, including Anhpan's settings.
+Mục đích mình làm đống patch này chủ yếu để xài cá nhân thôi, nhưng nếu anh em nào thấy hợp gu thì cứ add source về xài thoải mái. Các patch hiện tại chủ yếu tinh chỉnh lại giao diện (UI) bên phía client: nửa phần vì mình bị ADHD nên muốn mọi thứ tối giản, gọn mắt nhất có thể, nửa phần vì cực kỳ ngứa mắt với cái app Zalo nhưng công việc bắt buộc phải dùng nên đành tự độ lại cho đỡ khó chịu.
 
 ### How to use these patches
 
@@ -17,11 +17,11 @@ Click the button below, or manually add this repo url to Morphe Manager: https:/
 ## Patches list
 
 <!-- PATCHES_START -->
-> **[v1.1.0](https://github.com/rustybrozen/anhpan-patches/releases/tag/v1.1.0)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**4 patches** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
+> **[v1.2.0-dev.11](https://github.com/rustybrozen/anhpan-patches/releases/tag/v1.2.0-dev.11)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`dev`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**5 patches** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
 
 | # | App | Patches | Version | Package |
 |---|---|---|---|---|
-| 1 | [**Zalo**](PATCHES.md#zalo-comzingzalo) | 4 | `26.11.01` | [`com.zing.zalo`](https://play.google.com/store/apps/details?id=com.zing.zalo) |
+| 1 | [**Zalo**](PATCHES.md#zalo-comzingzalo) | 5 | `26.11.01` | [`com.zing.zalo`](https://play.google.com/store/apps/details?id=com.zing.zalo) |
 <!-- PATCHES_END -->
 
 ### Building locally

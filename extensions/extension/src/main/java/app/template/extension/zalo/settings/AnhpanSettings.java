@@ -86,7 +86,7 @@ public final class AnhpanSettings {
             context,
             "Chat highlight toggle",
             "eye_off",
-            prefs.getBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, true),
+            prefs.getBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, false),
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, checked).apply()
         );
@@ -115,7 +115,7 @@ public final class AnhpanSettings {
             context,
             "Read-only mode",
             "eye_off",
-            prefs.getBoolean(AnhpanPrefs.ENABLE_READ_ONLY, true),
+            prefs.getBoolean(AnhpanPrefs.ENABLE_READ_ONLY, false),
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.ENABLE_READ_ONLY, checked).apply()
         );
@@ -146,6 +146,42 @@ public final class AnhpanSettings {
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.READ_ONLY_NO_COLOR_NAME, checked).apply()
         );
+
+        ZaloUi.addGroup(list, context, "Chat List", darkMode);
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide draft preview",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.HIDE_DRAFT_PREVIEW, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_DRAFT_PREVIEW, checked).apply()
+        );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Hide chat date/time",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.HIDE_CHAT_TIME, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_CHAT_TIME, checked).apply()
+        );
+
+        ZaloUi.addGroup(list, context, "System", darkMode);
+        View resetRow = ZaloUi.row(context, "Reset all settings", ZaloUi.zdsIcon(context, "eye_off", darkMode), true, darkMode, null, 49);
+        resetRow.setClickable(true);
+        resetRow.setOnClickListener(v -> {
+            android.util.Log.d("AnhpanDebug", "Reset all settings clicked");
+            prefs.edit().clear().commit();
+            android.widget.Toast.makeText(context, "Reset complete, restarting...", android.widget.Toast.LENGTH_SHORT).show();
+            android.content.Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+            if (launch != null) {
+                launch.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                context.startActivity(launch);
+            }
+            android.os.Process.killProcess(android.os.Process.myPid());
+        });
+        list.addView(resetRow, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         page.show();
     }

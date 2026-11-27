@@ -52,11 +52,8 @@ internal object ContextMenuW6Fingerprint : Fingerprint(
 
 @Suppress("unused")
 val anhpanSettingsPatch = bytecodePatch(
-    name = "Anhpan's settings",
-    description = "Settings entry in Zalo and long-press context menu hook. Required by other Anhpan patches.",
-    default = true,
+    description = "Settings entry in Zalo and long-press context menu hook. Automatically enabled when any Anhpan patch is selected.",
 ) {
-    compatibleWith(zaloCompatibility)
     extendWith("extensions/extension.mpe")
 
     execute {
