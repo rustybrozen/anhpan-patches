@@ -390,25 +390,46 @@ public final class AnhpanChatLock {
         try {
             Context context = (Context) findMethod(mainTabView.getClass(), "O5").invoke(mainTabView);
             if (context == null) return;
-            if (AnhpanPrefs.isSearchBarHidden(context)) {
-                try {
-                    Object searchBar = findField(mainTabView.getClass(), "D1").get(mainTabView);
-                    if (searchBar instanceof View) {
-                        View sb = (View) searchBar;
-                        sb.setVisibility(View.GONE);
-                        if (sb.getParent() instanceof View) {
-                            ((View) sb.getParent()).setClickable(false);
-                        }
-                    }
-                } catch (Throwable ignored) { }
-            }
-            if (AnhpanPrefs.isPlusButtonHidden(context)) {
-                hideMenuFieldByName(mainTabView, "q2");
-            }
-            if (AnhpanPrefs.isQrButtonHidden(context)) {
-                hideMenuByIdName(mainTabView, context, "action_bar_qrcode");
+            Runnable apply = () -> applyMainTabMenuOnce(mainTabView, context);
+            apply.run();
+            Object rootObj = findField(mainTabView.getClass(), "s1").get(mainTabView);
+            if (rootObj instanceof View) {
+                View root = (View) rootObj;
+                if (!"anhpan-maintab-watched".equals(root.getTag())) {
+                    root.setTag("anhpan-maintab-watched");
+                    root.getViewTreeObserver().addOnGlobalLayoutListener(apply::run);
+                }
             }
         } catch (Throwable ignored) { }
+    }
+
+    private static void applyMainTabMenuOnce(Object mainTabView, Context context) {
+        if (AnhpanPrefs.isSearchBarHidden(context)) {
+            try {
+                Object searchBar = findField(mainTabView.getClass(), "D1").get(mainTabView);
+                if (searchBar instanceof View) {
+                    View sb = (View) searchBar;
+                    sb.setVisibility(View.GONE);
+                    if (sb.getParent() instanceof ViewGroup) {
+                        ViewGroup barContainer = (ViewGroup) sb.getParent();
+                        barContainer.setClickable(false);
+                        for (int i = 0; i < barContainer.getChildCount(); i++) {
+                            View child = barContainer.getChildAt(i);
+                            if (child == sb || child instanceof android.widget.ImageView || child instanceof TextView) {
+                                child.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }
+            } catch (Throwable ignored) { }
+        }
+        if (AnhpanPrefs.isPlusButtonHidden(context)) {
+            hideMenuFieldByName(mainTabView, "q2");
+        }
+        if (AnhpanPrefs.isQrButtonHidden(context)) {
+            hideMenuFieldByName(mainTabView, "n2");
+            hideMenuByIdName(mainTabView, context, "action_bar_qrcode");
+        }
     }
 
     private static void hideMenuFieldByName(Object target, String fieldName) {
