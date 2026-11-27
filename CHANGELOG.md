@@ -1,3 +1,9 @@
+## [1.1.0-dev.3](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.2...v1.1.0-dev.3) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* use move-object/from16 for high parameter registers ([e2dcfff](https://github.com/rustybrozen/anhpan-patches/commit/e2dcfff324036525c3269a48731cf32b977dcb07))
+
 ## [1.1.0-dev.2](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.1...v1.1.0-dev.2) (2026-11-27)
 
 ### 🐛 Bug Fixes
