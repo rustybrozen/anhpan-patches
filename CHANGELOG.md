@@ -1,3 +1,9 @@
+## [1.1.0-dev.16](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.15...v1.1.0-dev.16) (2026-11-27)
+
+### 🐛 Bug Fixes
+
+* properly hide QR button add button and search bar on Messages tab ([d948926](https://github.com/rustybrozen/anhpan-patches/commit/d9489266b092b14fd1ededfe72d877a365616d36))
+
 ## [1.1.0-dev.15](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0-dev.14...v1.1.0-dev.15) (2026-11-27)
 
 ### ✨ New Features
