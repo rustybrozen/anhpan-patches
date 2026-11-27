@@ -4,7 +4,7 @@ Personal Morphe Patches for Zalo.
 
 ## About
 
-Mục đích mình làm đống patch này chủ yếu để xài cá nhân thôi, nhưng nếu anh em nào thấy hợp gu thì cứ add source về xài thoải mái. Các patch hiện tại chủ yếu tinh chỉnh lại giao diện (UI) bên phía client: nửa phần vì mình bị ADHD nên muốn mọi thứ tối giản, gọn mắt nhất có thể, nửa phần vì cực kỳ ngứa mắt với cái app Zalo nhưng công việc bắt buộc phải dùng nên đành tự độ lại cho đỡ khó chịu.
+I mainly built these patches for personal use, but feel free to add the source and use them if they fit your vibe. Right now, they mostly tweak the client-side UI: half because I have ADHD and want everything as minimal and clutter-free as possible, and half because I genuinely despise Zalo's app but am forced to use it for work.
 
 ### How to use these patches
 
