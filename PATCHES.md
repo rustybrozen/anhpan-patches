@@ -1,6 +1,6 @@
 # Patches
 
-> Generated from `patches-list.json` — **v1.2.0** (`main`) · **4 patches** across **1 app** · back to [README](README.md)
+> Generated from `patches-list.json` — **v1.3.0-dev.1** (`dev`) · **6 patches** across **1 app** · back to [README](README.md)
 
 ---
 
@@ -10,9 +10,11 @@
 
 | Patch | Details |
 |---|---|
-| **Chat highlight toggle** | Per-conversation highlight toggle via long-press. Requires Anhpan's settings. |
-| **Chat list filters &amp; custom rename** | Hide My Cloud, Official Accounts, draft preview, strip emojis, and per-chat preview/avatar/rename. |
-| **Read-only mode** | Lock individual chats into read-only via long-press. Requires Anhpan's settings. |
-| **UI tweaks** | Hides search bar, QR button and add (+) button on the Messages tab. Requires Anhpan's settings. |
+| **Ad blocker** | Removes ads from chats and feed, and stops ad tracking. |
+| **Clean chat list** | Hide previews, avatars, dates, draft labels, or rename chats. |
+| **Highlight chats** | Long-press a chat to highlight it as unread. |
+| **Minimal top bar &amp; media** | Hide the search bar, QR/add buttons, and quick heart/share buttons on media. |
+| **Read-only chats** | Long-press a chat to lock it so you cannot send messages by mistake. |
+| **Save recalled messages** | Keep messages after they are unsent and mark them as recalled. |
 
 ---

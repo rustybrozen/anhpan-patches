@@ -1,3 +1,9 @@
+## [1.3.0-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0...v1.3.0-dev.1) (2026-11-28)
+
+### ✨ New Features
+
+* add ad blocker save recalled messages and simplify patch names ([e4e4024](https://github.com/rustybrozen/anhpan-patches/commit/e4e40245841a11dd946339666906d3acf0af340d))
+
 ## [1.2.0](https://github.com/rustybrozen/anhpan-patches/compare/v1.1.0...v1.2.0) (2026-11-27)
 
 ### ✨ New Features
