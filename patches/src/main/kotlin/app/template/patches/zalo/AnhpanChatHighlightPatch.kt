@@ -93,6 +93,8 @@ val anhpanChatHighlightPatch = bytecodePatch(
                 move-result v0
                 if-eqz v0, :anhpan_normal_badge
                 move-object/from16 v0, v$normalBadgeBase
+                move-object/from16 v1, v${normalBadgeBase + 1}
+                invoke-static {v0, v1}, Lapp/template/extension/zalo/settings/AnhpanUiHelper;->onBindNormalMsg(Landroid/view/View;Ljava/lang/Object;)V
                 invoke-static {v0}, $ANHPAN_CHAT_LOCK->hideUnreadBadge(Landroid/view/View;)V
                 return-void
             """.trimIndent(),

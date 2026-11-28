@@ -84,15 +84,6 @@ public final class AnhpanSettings {
         ZaloUi.toggleRow(
             list,
             context,
-            "Chat highlight toggle",
-            "eye_off",
-            prefs.getBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, false),
-            darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.CHAT_HIGHLIGHT_TOGGLE, checked).apply()
-        );
-        ZaloUi.toggleRow(
-            list,
-            context,
             "Hide media quick heart",
             "heart",
             prefs.getBoolean(AnhpanPrefs.HIDE_QUICK_HEART, false),

@@ -50,7 +50,7 @@ public final class AnhpanPrefs {
     }
 
     public static boolean isChatHighlightFeatureEnabled(Context context) {
-        return context != null && of(context).getBoolean(CHAT_HIGHLIGHT_TOGGLE, false);
+        return true;
     }
 
     public static boolean isQuickHeartHidden(Context context) {
