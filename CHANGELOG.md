@@ -1,3 +1,9 @@
+## [1.3.6](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.5...v1.3.6) (2026-11-28)
+
+### 🐛 Bug Fixes
+
+* **zalo:** preserve chat list filters when highlight is disabled ([ec76581](https://github.com/rustybrozen/anhpan-patches/commit/ec76581f2d7572d0219ef2c7003c02e8a98e685e))
+
 ## [1.3.5](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.4...v1.3.5) (2026-11-28)
 
 ### 🐛 Bug Fixes
