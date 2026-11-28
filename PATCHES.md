@@ -1,6 +1,6 @@
 # Patches
 
-> Generated from `patches-list.json` — **v1.3.0-dev.1** (`dev`) · **6 patches** across **1 app** · back to [README](README.md)
+> Generated from `patches-list.json` — **v1.3.0-dev.2** (`dev`) · **6 patches** across **1 app** · back to [README](README.md)
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Patch | Details |
 |---|---|
-| **Ad blocker** | Removes ads from chats and feed, and stops ad tracking. |
+| **Block ads &amp; tracking** | Removes ads from chats and feed, and stops analytics and crash reporting. |
 | **Clean chat list** | Hide previews, avatars, dates, draft labels, or rename chats. |
 | **Highlight chats** | Long-press a chat to highlight it as unread. |
 | **Minimal top bar &amp; media** | Hide the search bar, QR/add buttons, and quick heart/share buttons on media. |
