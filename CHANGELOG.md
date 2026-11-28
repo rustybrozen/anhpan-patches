@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.1...v1.3.2) (2026-11-28)
+
+### 🐛 Bug Fixes
+
+* apply chat list filters after bind so hidden avatar and preview persist ([2d583be](https://github.com/rustybrozen/anhpan-patches/commit/2d583bef9313586bf8781668d0c955098a3360d7))
+
 ## [1.3.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.0...v1.3.1) (2026-11-28)
 
 ### 🐛 Bug Fixes
