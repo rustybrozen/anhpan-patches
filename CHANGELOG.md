@@ -1,3 +1,9 @@
+## [1.3.4-dev.2](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.4-dev.1...v1.3.4-dev.2) (2026-11-28)
+
+### 🐛 Bug Fixes
+
+* bump dev build for chat list filter re-apply ([479b16d](https://github.com/rustybrozen/anhpan-patches/commit/479b16db4db7d886d230b733f88ea7951c85f3e0))
+
 ## [1.3.4-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.3...v1.3.4-dev.1) (2026-11-28)
 
 ### 🐛 Bug Fixes
