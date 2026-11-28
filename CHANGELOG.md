@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.4...v1.3.5) (2026-11-28)
+
+### 🐛 Bug Fixes
+
+* preserve chat list filters when highlight is disabled ([cbb76ba](https://github.com/rustybrozen/anhpan-patches/commit/cbb76ba6c5cdad6079138f44b0d57122949ea241))
+* re-apply chat list filters via view.post after bind ([6c5f451](https://github.com/rustybrozen/anhpan-patches/commit/6c5f45115522fc4437e4aa70ce1df5b1d78c9651))
+
 ## [1.3.4](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.3...v1.3.4) (2026-11-28)
 
 ### 🐛 Bug Fixes
