@@ -24,6 +24,7 @@ public final class AnhpanPrefs {
     public static final String HIDE_OFFICIAL_ACCOUNTS = "hide_official_accounts";
     public static final String HIDE_MUTE_ICON = "hide_mute_icon";
     public static final String HIDE_CHAT_TIME = "hide_chat_time";
+    public static final String KEEP_RECALLED_MESSAGES = "keep_recalled_messages";
     private static final String LOCKED_CHATS = "locked_chats";
     private static final String NO_HIGHLIGHT_CHATS = "no_highlight_chats";
     private static final String HIDE_PREVIEW_CHATS = "hide_preview_chats";
@@ -110,6 +111,10 @@ public final class AnhpanPrefs {
 
     public static boolean isChatTimeHidden(Context context) {
         return context != null && of(context).getBoolean(HIDE_CHAT_TIME, false);
+    }
+
+    public static boolean isKeepRecalledEnabled(Context context) {
+        return context != null && of(context).getBoolean(KEEP_RECALLED_MESSAGES, false);
     }
 
     public static boolean isChatPreviewHidden(Context context, String convId) {

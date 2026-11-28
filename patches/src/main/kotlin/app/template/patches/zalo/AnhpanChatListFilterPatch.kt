@@ -16,8 +16,8 @@ internal object NormalMsgBindFingerprint : Fingerprint(
 
 @Suppress("unused")
 val anhpanChatListFilterPatch = bytecodePatch(
-    name = "Chat list filters & custom rename",
-    description = "Hide My Cloud, Official Accounts, draft preview, strip emojis, and per-chat preview/avatar/rename.",
+    name = "Clean chat list",
+    description = "Hide previews, avatars, dates, draft labels, or rename chats.",
     default = true,
 ) {
     dependsOn(anhpanSettingsPatch)

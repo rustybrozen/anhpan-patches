@@ -166,6 +166,15 @@ public final class AnhpanSettings {
             darkMode,
             (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.HIDE_CHAT_TIME, checked).apply()
         );
+        ZaloUi.toggleRow(
+            list,
+            context,
+            "Keep recalled messages",
+            "eye_off",
+            prefs.getBoolean(AnhpanPrefs.KEEP_RECALLED_MESSAGES, false),
+            darkMode,
+            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.KEEP_RECALLED_MESSAGES, checked).apply()
+        );
 
         ZaloUi.addGroup(list, context, "System", darkMode);
         View resetRow = ZaloUi.row(context, "Reset all settings", ZaloUi.zdsIcon(context, "eye_off", darkMode), true, darkMode, null, 49);

@@ -18,8 +18,8 @@ internal object MainTabMenuFingerprint : Fingerprint(
 
 @Suppress("unused")
 val anhpanUiTweaksPatch = bytecodePatch(
-    name = "UI tweaks",
-    description = "Hides search bar, QR button and add (+) button on the Messages tab. Requires Anhpan's settings.",
+    name = "Minimal top bar & media",
+    description = "Hide the search bar, QR/add buttons, and quick heart/share buttons on media.",
     default = true,
 ) {
     compatibleWith(zaloCompatibility)

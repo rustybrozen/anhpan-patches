@@ -95,8 +95,8 @@ internal object ChatRowSenderNameFingerprint : Fingerprint(
 
 @Suppress("unused")
 val anhpanReadOnlyPatch = bytecodePatch(
-    name = "Read-only mode",
-    description = "Lock individual chats into read-only via long-press. Requires Anhpan's settings.",
+    name = "Read-only chats",
+    description = "Long-press a chat to lock it so you cannot send messages by mistake.",
     default = true,
 ) {
     compatibleWith(zaloCompatibility)

@@ -36,8 +36,8 @@ internal object NormalMsgUnreadBadgeFingerprint : Fingerprint(
 
 @Suppress("unused")
 val anhpanChatHighlightPatch = bytecodePatch(
-    name = "Chat highlight toggle",
-    description = "Per-conversation highlight toggle via long-press. Requires Anhpan's settings.",
+    name = "Highlight chats",
+    description = "Long-press a chat to highlight it as unread.",
     default = true,
 ) {
     compatibleWith(zaloCompatibility)
