@@ -1,6 +1,6 @@
 # Patches
 
-> Generated from `patches-list.json` — **v1.3.0** (`main`) · **6 patches** across **1 app** · back to [README](README.md)
+> Generated from `patches-list.json` — **v1.3.1-dev.1** (`dev`) · **7 patches** across **1 app** · back to [README](README.md)
 
 ---
 
@@ -12,6 +12,7 @@
 |---|---|
 | **Block ads &amp; tracking** | Removes ads from chats and feed, and stops analytics and crash reporting. |
 | **Clean chat list** | Hide previews, avatars, dates, draft labels, or rename chats. |
+| **High quality video uploads** | Uploads videos at 1080p with higher bitrate instead of 480p. |
 | **Highlight chats** | Long-press a chat to highlight it as unread. |
 | **Minimal top bar &amp; media** | Hide the search bar, QR/add buttons, and quick heart/share buttons on media. |
 | **Read-only chats** | Long-press a chat to lock it so you cannot send messages by mistake. |

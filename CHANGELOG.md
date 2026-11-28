@@ -1,3 +1,9 @@
+## [1.3.1-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.0...v1.3.1-dev.1) (2026-11-28)
+
+### 🐛 Bug Fixes
+
+* add high quality video upload patch ([c3e4be7](https://github.com/rustybrozen/anhpan-patches/commit/c3e4be7653db9d2a11d07949212972365a4c8ac2))
+
 ## [1.3.0](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0...v1.3.0) (2026-11-28)
 
 ### ✨ New Features
