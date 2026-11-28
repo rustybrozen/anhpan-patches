@@ -113,15 +113,6 @@ public final class AnhpanSettings {
         ZaloUi.toggleRow(
             list,
             context,
-            "Read-only mode",
-            "eye_off",
-            prefs.getBoolean(AnhpanPrefs.ENABLE_READ_ONLY, false),
-            darkMode,
-            (button, checked) -> prefs.edit().putBoolean(AnhpanPrefs.ENABLE_READ_ONLY, checked).apply()
-        );
-        ZaloUi.toggleRow(
-            list,
-            context,
             "Disable highlight in Read-only",
             "eye_off",
             prefs.getBoolean(AnhpanPrefs.READ_ONLY_NO_HIGHLIGHT, false),

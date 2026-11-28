@@ -38,14 +38,36 @@ private val removeAdIdResourcePatch = resourcePatch(
                 }
             }
             toRemove.forEach { it.parentNode.removeChild(it) }
+
+            val application = document.getElementsByTagName("application").item(0) as? Element
+            if (application != null) {
+                val metas = application.getElementsByTagName("meta-data")
+                var hasCrashlyticsMeta = false
+                for (i in 0 until metas.length) {
+                    val meta = metas.item(i) as Element
+                    if (meta.getAttribute("android:name") == "firebase_crashlytics_collection_enabled") {
+                        meta.setAttribute("android:value", "false")
+                        hasCrashlyticsMeta = true
+                        break
+                    }
+                }
+                if (!hasCrashlyticsMeta) {
+                    application.appendChild(
+                        document.createElement("meta-data").apply {
+                            setAttribute("android:name", "firebase_crashlytics_collection_enabled")
+                            setAttribute("android:value", "false")
+                        },
+                    )
+                }
+            }
         }
     }
 }
 
 @Suppress("unused")
 val anhpanBlockAdsPatch = bytecodePatch(
-    name = "Ad blocker",
-    description = "Removes ads from chats and feed, and stops ad tracking.",
+    name = "Block ads & tracking",
+    description = "Removes ads from chats and feed, and stops analytics and crash reporting.",
     default = true,
 ) {
     compatibleWith(
@@ -135,6 +157,16 @@ val anhpanBlockAdsPatch = bytecodePatch(
                 """.trimIndent(),
             )
         }
+
+        // 6. Firebase Crashlytics sinks: return-void at entry.
+        listOf(
+            CrashlyticsRecordException,
+            CrashlyticsLog,
+            CrashlyticsSetUserId,
+            CrashlyticsSetEnabled,
+        ).forEach { fp ->
+            fp.matchAll(0..1).singleOrNull()?.method?.addInstructions(0, "return-void")
+        }
     }
 }
 
@@ -214,4 +246,36 @@ private object AdtimaLatRead261101 : Fingerprint(
     filters = listOf(
         string("AdvertisingIdClient"),
     ),
+)
+
+private object CrashlyticsRecordException : Fingerprint(
+    definingClass = "Lcom/google/firebase/crashlytics/FirebaseCrashlytics;",
+    name = "recordException",
+    accessFlags = listOf(AccessFlags.PUBLIC),
+    returnType = "V",
+    parameters = listOf("Ljava/lang/Throwable;"),
+)
+
+private object CrashlyticsLog : Fingerprint(
+    definingClass = "Lcom/google/firebase/crashlytics/FirebaseCrashlytics;",
+    name = "log",
+    accessFlags = listOf(AccessFlags.PUBLIC),
+    returnType = "V",
+    parameters = listOf("Ljava/lang/String;"),
+)
+
+private object CrashlyticsSetUserId : Fingerprint(
+    definingClass = "Lcom/google/firebase/crashlytics/FirebaseCrashlytics;",
+    name = "setUserId",
+    accessFlags = listOf(AccessFlags.PUBLIC),
+    returnType = "V",
+    parameters = listOf("Ljava/lang/String;"),
+)
+
+private object CrashlyticsSetEnabled : Fingerprint(
+    definingClass = "Lcom/google/firebase/crashlytics/FirebaseCrashlytics;",
+    name = "setCrashlyticsCollectionEnabled",
+    accessFlags = listOf(AccessFlags.PUBLIC),
+    returnType = "V",
+    parameters = listOf("Z"),
 )

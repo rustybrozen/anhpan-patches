@@ -285,7 +285,7 @@ public final class AnhpanChatLock {
         banner.addView(icon, iconLp);
 
         TextView label = new TextView(context);
-        label.setText("This chat is locked.");
+        label.setText("Read Only");
         label.setTextColor(textColor);
         label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         banner.addView(label);

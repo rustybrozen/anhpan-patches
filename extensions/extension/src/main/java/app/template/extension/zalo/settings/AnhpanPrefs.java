@@ -62,7 +62,7 @@ public final class AnhpanPrefs {
     }
 
     public static boolean isReadOnlyEnabled(Context context) {
-        return context != null && of(context).getBoolean(ENABLE_READ_ONLY, false);
+        return true;
     }
 
     public static boolean isReadOnlyNoHighlight(Context context) {
