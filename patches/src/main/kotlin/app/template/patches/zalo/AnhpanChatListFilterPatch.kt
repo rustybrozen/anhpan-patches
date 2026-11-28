@@ -26,15 +26,9 @@ val anhpanChatListFilterPatch = bytecodePatch(
 
     execute {
         val match = NormalMsgBindFingerprint.matchOrNull() ?: return@execute
-        val instructions = match.method.implementation?.instructions?.toList().orEmpty()
-        val returnIndices = instructions.indices.filter {
-            instructions[it].opcode == com.android.tools.smali.dexlib2.Opcode.RETURN_VOID
-        }
-        for (idx in returnIndices.asReversed()) {
-            match.method.addInstructions(
-                idx,
-                "invoke-static {p0, p1}, $ANHPAN_UI_HELPER->onBindNormalMsg(Landroid/view/View;Ljava/lang/Object;)V",
-            )
-        }
+        match.method.addInstructions(
+            0,
+            "invoke-static {p0, p1}, $ANHPAN_UI_HELPER->onBindNormalMsg(Landroid/view/View;Ljava/lang/Object;)V",
+        )
     }
 }
