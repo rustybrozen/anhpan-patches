@@ -1,3 +1,9 @@
+## [1.3.3](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.2...v1.3.3) (2026-11-28)
+
+### 🐛 Bug Fixes
+
+* add startup crash fix patch ([5badeee](https://github.com/rustybrozen/anhpan-patches/commit/5badeee37ea5ff13f2da398ed991851f152c68f3))
+
 ## [1.3.2](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.1...v1.3.2) (2026-11-28)
 
 ### 🐛 Bug Fixes
