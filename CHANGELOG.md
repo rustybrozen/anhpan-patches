@@ -1,3 +1,13 @@
+## [1.3.0](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0...v1.3.0) (2026-11-28)
+
+### ✨ New Features
+
+* add ad blocker save recalled messages and simplify patch names ([e4e4024](https://github.com/rustybrozen/anhpan-patches/commit/e4e40245841a11dd946339666906d3acf0af340d))
+
+### 🐛 Bug Fixes
+
+* always enable read-only mode rename locked banner and block crashlytics in ad blocker ([c890634](https://github.com/rustybrozen/anhpan-patches/commit/c890634d96ec140d78c6ad54d328e8e7320c1221))
+
 ## [1.3.0-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.2.0...v1.3.0-dev.1) (2026-11-28)
 
 ### ✨ New Features
