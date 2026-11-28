@@ -11,8 +11,8 @@ import com.android.tools.smali.dexlib2.AccessFlags
 
 @Suppress("unused")
 val anhpanMediaQualityPatch = bytecodePatch(
-    name = "High quality video uploads",
-    description = "Uploads videos at 1080p with higher bitrate instead of 480p.",
+    name = "Force highest video quality",
+    description = "Tries to upload videos to Feed and Story at 1080p with higher bitrate.",
     default = true,
 ) {
     compatibleWith(
