@@ -71,8 +71,13 @@ public final class AnhpanUiHelper {
         }
     }
 
-    public static void onBindNormalMsg(View view, Object pupVar) {
+    public static void onBindNormalMsg(final View view, final Object pupVar) {
         if (view == null || pupVar == null) return;
+        applyNormalMsgFilters(view, pupVar);
+        view.post(() -> applyNormalMsgFilters(view, pupVar));
+    }
+
+    private static void applyNormalMsgFilters(View view, Object pupVar) {
         android.content.Context context = view.getContext();
         String convId = null;
         try {
