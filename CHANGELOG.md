@@ -1,3 +1,10 @@
+## [1.3.4-dev.1](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.3...v1.3.4-dev.1) (2026-11-28)
+
+### 🐛 Bug Fixes
+
+* re-apply chat list filters via view.post after bind ([2da1f7a](https://github.com/rustybrozen/anhpan-patches/commit/2da1f7ab22fd7e6894cee7fefabb33f751d4e745))
+* restore entry hook on NormalMsgModuleView.T to fix VerifyError ([1083e3a](https://github.com/rustybrozen/anhpan-patches/commit/1083e3abe83bfa592e1698737c1d875db2a478d0))
+
 ## [1.3.3](https://github.com/rustybrozen/anhpan-patches/compare/v1.3.2...v1.3.3) (2026-11-28)
 
 ### 🐛 Bug Fixes
